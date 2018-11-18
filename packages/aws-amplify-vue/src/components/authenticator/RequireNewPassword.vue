@@ -15,19 +15,26 @@
   <div v-bind:class="amplifyUI.formSection">
     <div v-bind:class="amplifyUI.sectionHeader">{{options.header}}</div>
     <div v-bind:class="amplifyUI.sectionBody">
-      <div v-bind:class="amplifyUI.formField" v-if="sent">
-        <div v-bind:class="amplifyUI.inputLabel">{{$Amplify.I18n.get('Code')}} *</div>
-        <input v-bind:class="amplifyUI.input" v-model="code" :placeholder="$Amplify.I18n.get('Code')" autofocus />
-      </div>
-      <div v-bind:class="amplifyUI.formField" v-if="sent">
+      <div v-bind:class="amplifyUI.formField">
         <div v-bind:class="amplifyUI.inputLabel">{{$Amplify.I18n.get('New Password')}} *</div>
         <input v-bind:class="amplifyUI.input" v-model="password" type="password" :placeholder="$Amplify.I18n.get('New Password')" autofocus />
       </div>
     </div>
-
+    <div v-bind:class="amplifyUI.formField" 
+        v-for="attribute in options.user.challengeParam.requiredAttributes" 
+        :attribute="attribute" 
+        v-bind:key="attribute"
+      >
+      <div v-bind:class="amplifyUI.inputLabel">{{attribute.charAt(0).toUpperCase() + attribute.slice(1)}}</div>
+      <input
+        v-bind:class="amplifyUI.input" 
+        v-model="requiredAttributes[attribute]" 
+        :placeholder="attribute.charAt(0).toUpperCase() + attribute.slice(1)"
+      />
+    </div>
   <div v-bind:class="amplifyUI.sectionFooter">
       <span v-bind:class="amplifyUI.sectionFooterPrimaryContent">
-        <button v-if="!sent" v-bind:class="amplifyUI.button" v-on:click="submit" :disabled="!username">{{$Amplify.I18n.get('Submit')}}</button>
+        <button v-if="!sent" v-bind:class="amplifyUI.button" v-on:click="change" :disabled="!password">{{$Amplify.I18n.get('Submit')}}</button>
       </span>
       <span v-bind:class="amplifyUI.sectionFooterSecondaryContent">
         <a v-if="!sent" v-bind:class="amplifyUI.a" v-on:click="signIn">{{$Amplify.I18n.get('Back to Sign In')}}</a>
@@ -48,21 +55,25 @@ export default {
   props: ['requireNewPasswordConfig'],
   data () {
     return {
-        username: '',
-        code: '',
-        password: '',
+        user: '',
         error: '',
-        sent: false,
+        password: '',
         logger: {},
+        requiredAttributes: {},
         amplifyUI: AmplifyUI
     }
   },
   computed: {
     options() {
       const defaults = {
-        header: this.$Amplify.I18n.get('Reset your password'),
+        header: this.$Amplify.I18n.get('Enter new password'),
+        user: {
+          challengeParam: {
+            requiredAttributes: []
+          }
+        }
       }
-      return Object.assign(defaults, this.forgotPasswordConfig || {})
+      return Object.assign(defaults, this.requireNewPasswordConfig || {})
     }
   },
   mounted() {
@@ -74,9 +85,6 @@ export default {
       this.logger.error(this.error);
     },
     checkContact(user) {
-      if (!Auth || typeof Auth.verifiedContact !== 'function') {
-        throw new Error('No Auth module found, please ensure @aws-amplify/auth is imported');
-      }
       this.$Amplify.Auth.verifiedContact(user)
         .then(data => {
           if (!JS.isEmpty(data.verified)) {
@@ -85,32 +93,40 @@ export default {
             user = Object.assign(user, data);
             this.changeState('verifyContact', user);
           }
-        });
+        })
+        .catch((e) => this.setError(e))
     },
     change() {
-      const user = this.props.authData;
-      const { password } = this.inputs;
-      const { requiredAttributes } = user.challengeParam;
-      const attrs = objectWithProperties(this.inputs, requiredAttributes);
-
-      if (!Auth || typeof Auth.completeNewPassword !== 'function') {
-        throw new Error('No Auth module found, please ensure @aws-amplify/auth is imported');
-      }
-      this.$Amplfiy.Auth.completeNewPassword(user, password, attrs)
+      this.$Amplify.Auth.completeNewPassword(this.options.user, this.password, this.requiredAttributes)
         .then(user => {
-            logger.debug('complete new password', user);
-            if (user.challengeName === 'SMS_MFA') {
-                AmplifyEventBus.$emit('localUser', user)
+            if (this.options.user.challengeName === 'SMS_MFA') {
+                AmplifyEventBus.$emit('localUser', this.options.user)
                 AmplifyEventBus.$emit('authState', 'confirmSignIn')
-            } else if (user.challengeName === 'MFA_SETUP') {
-              AmplifyEventBus.$emit('localUser', user)
+            } else if (this.options.user.challengeName === 'MFA_SETUP') {
+              AmplifyEventBus.$emit('localUser', this.options.user)
               AmplifyEventBus.$emit('authState', 'setMfa')
             } else {
-              this.checkContact(user);
+              this.checkContact(this.options.user);
             }
         })
-        .catch(err => this.error(err));
-    }
+        .catch(err => this.setError(err));
+    },
+    signIn: function() {
+      AmplifyEventBus.$emit('authState', 'signedOut')
+    },
+    // objectWithProperties: function(obj, keys) {
+    //   const target = {};
+    //   for (const key in obj) {
+    //     if (keys.indexOf(key) === -1) {
+    //       continue;
+    //     }
+    //     if (!Object.prototype.hasOwnProperty.call(obj, key)) {
+    //       continue;
+    //     }
+    //     target[key] = obj[key];
+    //   }
+    //   return target;
+    // }
   }
 }
 </script>

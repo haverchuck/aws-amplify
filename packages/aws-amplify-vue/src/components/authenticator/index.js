@@ -23,7 +23,7 @@ import ConfirmSignIn from './ConfirmSignIn.vue';
 import ForgotPassword from './ForgotPassword.vue';
 import Authenticator from './Authenticator.vue';
 import SetMfa from './SetMFA.vue';
-import RequireNewPassword from './RequireNewPassword.vue'
+import RequireNewPassword from './RequireNewPassword.vue';
 
 Vue.component('amplify-authenticator', Authenticator);
 Vue.component('amplify-sign-in', SignIn);
@@ -45,4 +45,5 @@ export {
   ConfirmSignIn,
   ForgotPassword,
   SetMfa,
+  RequireNewPassword,
 };

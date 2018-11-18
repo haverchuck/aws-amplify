@@ -78,7 +78,7 @@ export default {
       this.$Amplify.Auth.signIn(this.options.username, this.password)
         .then(data => {
           this.logger.info('sign in success');
-          if (data.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+          if (data.challengeName === 'SMS_MFA' || data.challengeName === 'SOFTWARE_TOKEN_MFA') {
             AmplifyEventBus.$emit('localUser', data);
             return AmplifyEventBus.$emit('authState', 'confirmSignIn')
           } else if (data.challengeName === 'NEW_PASSWORD_REQUIRED') {
