@@ -37,19 +37,18 @@ import AmplifyEventBus from '../../events/AmplifyEventBus';
 
 export default {
   name: 'S3Album',
-  props: ['s3AlbumConfig'],
+  props: ['s3AlbumConfig', 'path'],
   data () {
     return {
       logger: {},
       error: '',
-      path: '',
       items: [],
     }
   },
   computed: {
     options() {
       const defaults = {
-        level: 'private',
+        level: 'public',
       }
       return Object.assign(defaults, this.s3AlbumConfig || {})
     }
@@ -63,12 +62,9 @@ export default {
   },
   methods: {
     getImages() {
-      if (!this.options.path) { 
+      if (!this.path) { 
         this.setError('Album path not provided');
         return; 
-      } else {
-        this.path = this.options.path;
-        delete this.options.path;
       }
       const that = this;
       this.$Amplify.Storage.list(this.path, this.options)

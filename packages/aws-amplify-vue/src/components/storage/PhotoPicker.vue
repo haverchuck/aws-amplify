@@ -17,6 +17,7 @@
         </div>
       </div>
       <input
+        ref="file_input"
         type="file"
         accept="options.accept"
         @change="pick"
@@ -52,9 +53,7 @@ export default {
         header: this.$Amplify.I18n.get('File Upload'),
         title: this.$Amplify.I18n.get('Upload'),
         accept: '*/*',
-        s3Options: {
-          'level': 'private',
-        }
+        s3Options: {}
       }
       return Object.assign(defaults, this.photoPickerConfig || {})
     },
@@ -97,6 +96,7 @@ export default {
     completeFileUpload(img) {
       this.file = null;
       this.s3ImageFile = null;
+      this.$refs.file_input.value = null;
       AmplifyEventBus.$emit('fileUpload', img);
     },
     setError: function(e) {
