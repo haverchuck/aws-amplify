@@ -59,7 +59,10 @@ export default {
   mounted() {
     this.logger = new this.$Amplify.Logger(this.$options.name);
     if (!this.options.path) {
-      this.setError('File path not provided.');
+      return this.setError('File path not provided.');
+    }
+    if (!this.options.path.substr(this.options.path.length -1) !== '/') {
+      this.options.path = this.options.path + '/';  
     }
   },
   methods: {
@@ -68,6 +71,7 @@ export default {
         this.s3ImagePath,
         this.file, {
           'contentType': this.file.type,
+
         }
       )
       .then((result) => {
