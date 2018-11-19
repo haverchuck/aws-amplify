@@ -26,12 +26,20 @@ import AmplifyEventBus from '../../events/AmplifyEventBus';
 
 export default {
   name: 'S3Image',
-  props: ['imagePath'],
+  props: ['path', 's3ImageConfig'],
   data () {
     return {
       url: null,
       error: '',
       logger: {},
+    }
+  },
+  computed: {
+    options() {
+      const defaults = {
+        level: 'private',
+      }
+      return Object.assign(defaults, {s3ImageConfig: this.s3ImageConfig, path: this.path } || {})
     }
   },
   mounted() {
@@ -40,11 +48,11 @@ export default {
   },
   methods: {
     getImage() {
-      if (!this.imagePath) {
+      if (!this.options.path) {
         return this.setError('Image path not provided.')
       }
       this.$Amplify.Storage
-        .get(this.imagePath)
+        .get(this.options.path, this.options.s3ImageConfig)
         .then((url) => {
           this.url = url
           })

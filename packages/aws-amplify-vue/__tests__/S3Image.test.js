@@ -51,21 +51,18 @@ describe('S3Image', () => {
       expect(wrapper.vm.setError).toBeTruthy();
     });
 
-    it('...should not call $Amplify.Storage.get when getImages is called witout imagePath', () => {
-      wrapper.vm.getImage();
-      expect(wrapper.vm.$Amplify.Storage.get).not.toHaveBeenCalled();
-    });
 
-    it('...should not call $Amplify.Storage.get when getImages is called witout imagePath', () => {
-      wrapper.vm.imagePath = 'testPath';
+    it('...should call $Amplify.Storage.get when getImages is called with imagePath', () => {
       wrapper.vm.getImage();
       expect(wrapper.vm.$Amplify.Storage.get).toHaveBeenCalled();
     });
 
-    it('...should not call window.open when blowUp is called', () => {
+
+    it('...should call window.open when blowUp is called', () => {
       wrapper.vm.blowUp();
       expect(global.open).toHaveBeenCalled();
     });
+
   });
 
   describe('...when it is mounted with props...', () => {

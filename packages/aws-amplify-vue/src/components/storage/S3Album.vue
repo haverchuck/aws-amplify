@@ -21,7 +21,8 @@
           class="amplify-image-container"
           v-for="item in items"
           v-bind:key="item.key"
-          :imagePath="item.path"
+          :path="item.path"
+          :s3ImageConfig="s3AlbumConfig"
         ></amplify-s3-image>
       </div>
     </div>
@@ -36,12 +37,21 @@ import AmplifyEventBus from '../../events/AmplifyEventBus';
 
 export default {
   name: 'S3Album',
-  props: ['path'],
+  props: ['s3AlbumConfig'],
   data () {
     return {
       logger: {},
       error: '',
+      path: '',
       items: [],
+    }
+  },
+  computed: {
+    options() {
+      const defaults = {
+        level: 'private',
+      }
+      return Object.assign(defaults, this.s3AlbumConfig || {})
     }
   },
   mounted() {
@@ -53,12 +63,15 @@ export default {
   },
   methods: {
     getImages() {
-      if (!this.path) { 
+      if (!this.options.path) { 
         this.setError('Album path not provided');
         return; 
+      } else {
+        this.path = this.options.path;
+        delete this.options.path;
       }
       const that = this;
-      this.$Amplify.Storage.list(this.path)
+      this.$Amplify.Storage.list(this.path, this.options)
         .then(res => {
           that.items = res.map(item => {
             return { path: item.key };

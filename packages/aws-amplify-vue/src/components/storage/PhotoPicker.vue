@@ -52,6 +52,9 @@ export default {
         header: this.$Amplify.I18n.get('File Upload'),
         title: this.$Amplify.I18n.get('Upload'),
         accept: '*/*',
+        s3Options: {
+          'level': 'private',
+        }
       }
       return Object.assign(defaults, this.photoPickerConfig || {})
     },
@@ -61,7 +64,7 @@ export default {
     if (!this.options.path) {
       return this.setError('File path not provided.');
     }
-    if (!this.options.path.substr(this.options.path.length -1) !== '/') {
+    if (this.options.path.substr(this.options.path.length -1) !== '/') {
       this.options.path = this.options.path + '/';  
     }
   },
@@ -69,10 +72,7 @@ export default {
     upload() {
       this.$Amplify.Storage.put(
         this.s3ImagePath,
-        this.file, {
-          'contentType': this.file.type,
-
-        }
+        this.file, this.options.s3Options
       )
       .then((result) => {
         this.completeFileUpload(result.key)
@@ -81,6 +81,7 @@ export default {
     },
     pick(evt) {
       this.file = evt.target.files[0];
+      this.options.s3Options.contentType = this.file.type;
       if (!this.file) { return ;};
       const name = this.options.defaultName ? this.options.defaultName : this.file.name;
       this.s3ImagePath = `${this.options.path}${name}`;
