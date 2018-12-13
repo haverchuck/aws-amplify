@@ -170,7 +170,21 @@ export class Credentials {
         });
 
         const that = this;
-        return this._loadCredentials(credentials, 'guest', false, null);
+        this._loadCredentials(credentials, 'guest', false, null)
+        .then((res) => {
+            return res;
+        })
+        .catch(async (e) => {
+            if (e.code === 'ResourceNotFoundException') {
+
+                //resend with new creds?
+
+                logger.info('Failed to load guest credentials');
+
+            } else {
+                return e;
+            }
+        });
     }
 
     private _setCredentialsFromAWS() {
