@@ -142,6 +142,7 @@ export class Credentials {
     }
 
     private async _setCredentialsForGuest() {
+        let attempted = false;
         logger.debug('setting credentials for guest');
         const { identityPoolId, region, mandatorySignIn } = this._config;
         if (mandatorySignIn) {
@@ -175,12 +176,19 @@ export class Credentials {
             return res;
         })
         .catch(async (e) => {
-            if (e.code === 'ResourceNotFoundException') {
-
-                //resend with new creds?
-
-                logger.info('Failed to load guest credentials');
-
+            if (e.code === 'ResourceNotFoundException' && !attempted) {
+                attempted = true;
+                logger.debug('Failed to load guest credentials');
+                this._storage.removeItem('CognitoIdentityId-' + identityPoolId);
+                this._storage.removeItem('aws.cognito.identity-id.' + identityPoolId);
+                const newCredentials = new AWS.CognitoIdentityCredentials(
+                    {
+                    IdentityPoolId: identityPoolId,
+                    IdentityId: undefined
+                },  {
+                    region
+                });
+                return this._loadCredentials(newCredentials, 'guest', false, null);
             } else {
                 return e;
             }
