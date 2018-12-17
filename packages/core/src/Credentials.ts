@@ -176,10 +176,12 @@ export class Credentials {
             return res;
         })
         .catch(async (e) => {
+            // make test more narrow
             if (e.code === 'ResourceNotFoundException' && !attempted) {
                 attempted = true;
                 logger.debug('Failed to load guest credentials');
                 this._storage.removeItem('CognitoIdentityId-' + identityPoolId);
+                // use aws-adk public function: https://github.com/aws/aws-sdk-js/blob/master/lib/credentials/cognito_identity_credentials.js#L191
                 this._storage.removeItem('aws.cognito.identity-id.' + identityPoolId);
                 const newCredentials = new AWS.CognitoIdentityCredentials(
                     {
