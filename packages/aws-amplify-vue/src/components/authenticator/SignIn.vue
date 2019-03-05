@@ -15,10 +15,19 @@
   <div v-bind:class="amplifyUI.formSection" v-bind:data-test="auth.signIn.section">
     <div v-bind:class="amplifyUI.sectionHeader" v-bind:data-test="auth.signIn.headerSection">{{options.header}}</div>
     <div v-bind:class="amplifyUI.sectionBody" v-bind:data-test="auth.signIn.bodySection">
+      <div v-if="options.federated">
+        <amplify-federated-sign-in v-bind:federatedSignInConfig="options.federated"></amplify-federated-sign-in>
+        <div :class="amplifyUI.strike">
+          <span :class="amplifyUI.strikeContent">
+            {{$Amplify.I18n.get('or')}}
+          </span>
+        </div>
+      </div>
       <amplify-username-field 
         v-bind:usernameAttributes="usernameAttributes" 
         v-on:username-field-changed="usernameFieldChanged">
       </amplify-username-field>
+
       <div v-bind:class="amplifyUI.formField">
         <div v-bind:class="amplifyUI.inputLabel">{{$Amplify.I18n.get('Password')}} *</div>
         <input  v-bind:class="amplifyUI.input" v-model="password" type="password" :placeholder="$Amplify.I18n.get('Enter your password')" v-on:keyup.enter="signIn" v-bind:data-test="auth.signIn.passwordInput" />
@@ -44,7 +53,6 @@
 </template>
 
 <script>
-// import Auth from '@aws-amplify/auth';
 import AmplifyEventBus from '../../events/AmplifyEventBus';
 import * as AmplifyUI from '@aws-amplify/ui';
 import Vue from 'vue';
@@ -76,7 +84,8 @@ export default {
       const defaults = {
         header: this.$Amplify.I18n.get('Sign in to your account'),
         username: '',
-        isSignUpDisplayed: true,
+        federated: {},
+        isSignUpDisplayed: true
       }
       return Object.assign(defaults, this.signInConfig || {})
     },
