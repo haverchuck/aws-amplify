@@ -25,4 +25,12 @@ export const labelMap = {
 
 export const composePhoneNumber = (countryCode, local_phone_number) => {
     return `+${countryCode}${local_phone_number.replace(/[-()]/g, '')}`;
-}
+};
+
+export const constants = {
+  AUTH_SOURCE_KEY: 'amplify-vue-auth-source',
+  AUTH0: 'auth0',
+  GOOGLE: 'google',
+  FACEBOOK: 'facebook',
+  AMAZON: 'amazon',
+};

@@ -70,10 +70,31 @@ function decorateSignIn(authState: Subject<AuthState>, Auth) {
   };
 }
 
+function decorateFederatedSignIn(authState: Subject<AuthState>, Auth) {
+  const _federatedSignIn = Auth.federatedSignIn;
+  Auth.federatedSignIn = (
+    provider: string,
+    data: object
+  ): Promise<any> => {
+    return _federatedSignIn.call(Auth, provider, data)
+      .then(user => {
+        logger.debug('signIn success');
+        if (!user.challengeName) {
+          authState.next({ state: 'signedIn', user });
+          return user;
+        }
+      })
+      .catch(err => {
+        logger.debug('signIn error', err);
+        throw err;
+      });
+  };
+}
+
 function decorateSignOut(authState: Subject<AuthState>, Auth) {
   const _signOut = Auth.signOut;
   Auth.signOut = (): Promise<any> => {
-    return _signOut.call(Amplify.Auth)
+    return _signOut.call(Auth)
       .then(data => {
         logger.debug('signOut success');
         authState.next({ state: 'signedOut', user: null });
@@ -131,6 +152,7 @@ export function authDecorator(authState: Subject<AuthState>, authModule) {
   listen(authState);
   decorateSignIn(authState, authModule);
   decorateSignOut(authState, authModule);
+  decorateFederatedSignIn(authState, authModule);
   decorateSignUp(authState, authModule);
   decorateConfirmSignUp(authState, authModule);
 }

@@ -24,6 +24,8 @@ import { ConfirmSignUpComponentIonic } from './components/authenticator/confirm-
 import { ForgotPasswordComponentIonic } from './components/authenticator/forgot-password-component/forgot-password.component.ionic';
 import { GreetingComponentIonic } from './components/authenticator/greeting-component/greeting.component.ionic';
 import { SignInComponentIonic } from './components/authenticator/sign-in-component/sign-in.component.ionic';
+import { FederatedSignInComponentIonic } from './components/authenticator/federated-sign-in-component/federated-sign-in.component.ionic';
+import { GoogleSignInComponentIonic } from './components/authenticator/federated-sign-in-component/google-sign-in-component/google-sign-in.component.ionic';
 import { SignUpComponentIonic } from './components/authenticator/sign-up-component/sign-up.component.ionic';
 import { PhoneFieldComponentIonic } from './components/authenticator/phone-field-component/phone-field.component.ionic';
 import { UsernameFieldComponentIonic } from './components/authenticator/username-field-component/username-field.component.ionic';
@@ -43,6 +45,8 @@ const components = [
   ForgotPasswordComponentIonic,
   GreetingComponentIonic,
   SignInComponentIonic,
+  FederatedSignInComponentIonic,
+  GoogleSignInComponentIonic,
   SignUpComponentIonic,
   UsernameFieldComponentIonic,
   PhoneFieldComponentIonic,
@@ -61,7 +65,7 @@ const components = [
     FormsModule
   ],
   declarations: [
-    ...components,
+    ...components
   ],
   entryComponents: [
     ...components
