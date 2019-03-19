@@ -20,6 +20,7 @@ import { SignInComponentCore } from './sign-in.component.core';
 import { auth } from '../../../assets/data-test-attributes';
 
 const template = `
+<<<<<<< HEAD
 <div
   class="amplify-authenticator"
   *ngIf="_show"
@@ -29,6 +30,22 @@ const template = `
     <div class="amplify-form-header" data-test="${auth.signIn.headerSection}">
       {{ this.amplifyService.i18n().get('Sign in to your account') }}
     </div>
+=======
+<div class="amplify-authenticator" *ngIf="_show">
+  <div class="amplify-form-body">
+    <div class="amplify-form-header">{{ this.amplifyService.i18n().get('Sign in to your account') }}</div>
+    <div *ngIf="_signInConfig.federatedSignInConfig">
+      <amplify-auth-federated-sign-in-ionic
+        [authState]="_authState"
+        [federatedSignInConfig]="_signInConfig.federatedSignInConfig"
+      ></amplify-auth-federated-sign-in-ionic>
+
+      <div class={{amplifyUI.strike}}>
+        <span class={{amplifyUI.strikeContent}}> or </span>
+      </div>
+    </div>
+
+>>>>>>> Merge branch 'master' into angularFederatedIdentity
     <ion-list lines="none">
       <amplify-auth-username-field-ionic
         [usernameAttributes]="_usernameAttributes"

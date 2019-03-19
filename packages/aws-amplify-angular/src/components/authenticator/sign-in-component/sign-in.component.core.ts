@@ -27,6 +27,15 @@ const template = `
       <div class="amplify-form-header" data-test="${auth.signIn.headerSection}">
         {{ this.amplifyService.i18n().get('Sign in to your account') }}
       </div>
+      <div *ngIf="_signInConfig.federatedSignInConfig">
+      <amplify-auth-federated-sign-in-core
+        [authState]="_authState"
+        [federatedSignInConfig]="_signInConfig.federatedSignInConfig"
+      ></amplify-auth-federated-sign-in-core>
+      <div class={{amplifyUI.strike}}>
+        <span class={{amplifyUI.strikeContent}}> or </span>
+      </div>
+    </div>
       <amplify-auth-username-field-core
         [usernameAttributes]="_usernameAttributes"
         (usernameFieldChanged)="onUsernameFieldChanged($event)"
@@ -90,6 +99,7 @@ const template = `
 })
 export class SignInComponentCore implements OnInit {
   _authState: AuthState;
+  _signInConfig: any;
   _show: boolean;
   _usernameAttributes: string = 'username';
   username: string;
@@ -139,6 +149,11 @@ export class SignInComponentCore implements OnInit {
   shouldHide(comp) {
     return this.hide.filter(item => item === comp)
       .length > 0;
+  }
+
+  @Input() 
+  set signInConfig(signInConfig: any) {
+    this._signInConfig = signInConfig;
   }
 
   setUsername(username: string) {

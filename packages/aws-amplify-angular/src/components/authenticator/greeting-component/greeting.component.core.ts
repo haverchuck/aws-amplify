@@ -18,6 +18,8 @@ import { Component, Input, OnInit, Inject } from '@angular/core';
 import { AmplifyService } from '../../../providers/amplify.service';
 import { AuthState } from '../../../providers/auth.state';
 import { auth } from '../../../assets/data-test-attributes';
+import { constants } from '../common'
+
 
 const template = `
 <div class="amplify-greeting" *ngIf="signedIn">
@@ -80,11 +82,75 @@ export class GreetingComponentCore implements OnInit {
     }
     
     this.greeting = this.signedIn
-      ? this.amplifyService.i18n().get("Hello, {{username}}").replace('{{username}}', username)
+      ? this.amplifyService.i18n().get("Hello, {{username}}").replace('{{username}}', username || authState.user.username || authState.user.name)
       : "";
   }
 
+  googleSignOut() {
+    const ga = (<any>window).gapi && (<any>window).gapi.auth2
+      ? (<any>window).gapi.auth2.getAuthInstance() 
+      : null;
+    if (!ga) {
+      return Promise.resolve();
+    }
+     ga.then((googleAuth: any) => {
+      if (!googleAuth) {
+        return Promise.resolve();
+      }
+      return googleAuth.signOut();
+    });
+  }
+
+  facebookSignOut() {
+    const fb = (<any>window).FB;
+    if (!fb) {
+      return Promise.resolve();
+    }
+    fb.getLoginStatus(response => {
+      if (response.status === 'connected') {
+        return new Promise((res, rej) => {
+          fb.logout(response => {
+            res(response);
+          });
+        });
+      } else {
+        return Promise.resolve();
+      }
+    });
+  }
+
+  amazonSignOut() {
+    const amz = (<any>window).amazon;
+    if (!amz) {
+      // this.logger.debug('Amazon Login sdk undefined');
+      return Promise.resolve();
+    }
+    //  this.logger.debug('Amazon signing out');
+    amz.Login.logout();
+  }
+
   onSignOut() {
+    let payload: any = {};
+    try {
+      payload = JSON.parse(localStorage.getItem(constants.AUTH_SOURCE_KEY)) || {};
+      localStorage.removeItem(constants.AUTH_SOURCE_KEY);
+    } catch (e) {
+      // this.logger.debug(`Failed to parse the info from ${constants.AUTH_SOURCE_KEY} from localStorage with ${e}`);
+    }
+
+    switch (payload.provider) {
+      case constants.GOOGLE:
+        this.googleSignOut();
+        break;
+      case constants.FACEBOOK:
+        this.facebookSignOut();
+        break;
+      case constants.AMAZON:
+        this.amazonSignOut();
+        break;
+      default:
+        break;
+    }
     this.amplifyService.auth().signOut();
   }
 }

@@ -27,8 +27,16 @@ export const composePhoneNumber = (countryCode, local_phone_number) => {
     return `+${countryCode}${local_phone_number.replace(/[-()]/g, '')}`;
 };
 
+export function setLocalStorage(key: string, payload: any, logger: any) {
+  try {
+    localStorage.setItem(key, JSON.stringify(payload));
+  } catch (e) {
+    logger.debug('Failed to cache auth source into localStorage', e);
+  }
+}
+
 export const constants = {
-  AUTH_SOURCE_KEY: 'amplify-vue-auth-source',
+  AUTH_SOURCE_KEY: 'amplify-angular-auth-source',
   AUTH0: 'auth0',
   GOOGLE: 'google',
   FACEBOOK: 'facebook',

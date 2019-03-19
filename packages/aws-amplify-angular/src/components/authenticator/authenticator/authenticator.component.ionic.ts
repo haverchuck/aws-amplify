@@ -26,6 +26,7 @@ const template = `
   [authState]="authState"
   [usernameAttributes]="_usernameAttributes"
   [hide]="hide"
+  [signInConfig]="_signInConfig"
 ></amplify-auth-sign-in-ionic>
 
 <amplify-auth-sign-up-ionic

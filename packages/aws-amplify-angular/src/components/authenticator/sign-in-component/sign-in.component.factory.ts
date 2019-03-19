@@ -42,6 +42,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   @Input() authState: AuthState;
   @Input() usernameAttributes: string = 'username';
   @Input() hide: string[] = [];
+  @Input() signInConfig: any;
   @ViewChild(DynamicComponentDirective) componentHost: DynamicComponentDirective;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
@@ -54,7 +55,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   loadComponent() {
 
-    let authComponent = this.framework && this.framework === 'ionic' ? 
+    const authComponent = this.framework && this.framework === 'ionic' ? 
       new ComponentMount(
         SignInComponentIonic,{
           authState: this.authState,
