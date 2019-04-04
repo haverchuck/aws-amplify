@@ -111,7 +111,7 @@ jobs:
             echo $AWS_EXPORTS_AUTH > src/aws-exports.js
             yarn start
       - run:
-          name: "Run cypress tests for aws-amplify-angular"
+          name: "Run cypress tests for aws-amplify-angular test"
           command: |
             yarn cypress --scope aws-amplify-angular
       - store_artifacts:
