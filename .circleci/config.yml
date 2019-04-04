@@ -78,16 +78,11 @@ jobs:
           command: |
             cd ~
             git clone $ANGULAR_CLONE_URL
-            echo yes
             cd angular-7-sample-modularized
             yarn
             yarn link aws-amplify
             yarn link aws-amplify-angular
             echo $AWS_EXPORTS_AUTH > src/aws-exports.js
-      - run:
-          name: "Start Auth test server in background"
-          command: |
-            cd ~/angular-7-sample-modularized
             ng serve
       - run:
           name: "Run cypress tests for aws-amplify-angular"
