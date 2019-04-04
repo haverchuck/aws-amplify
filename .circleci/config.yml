@@ -83,7 +83,7 @@ jobs:
             yarn link aws-amplify
             yarn link aws-amplify-angular
             echo $AWS_EXPORTS_AUTH > src/aws-exports.js
-            ng serve
+            yarn start
       - run:
           name: "Run cypress tests for aws-amplify-angular"
           command: |
