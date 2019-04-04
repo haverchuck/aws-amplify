@@ -75,7 +75,7 @@ jobs:
           command: |
             cd ~
             git clone $ANGULAR_CLONE_URL
-            echo y
+            echo yes
             cd angular-7-sample-modularized
             yarn
             yarn link aws-amplify
