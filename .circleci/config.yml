@@ -101,8 +101,8 @@ jobs:
             cd angular-7-sample-modularized
             yarn
             yarn link aws-amplify
-            yarn install amazon-cognito-identity-js
-            yarn install aws-sdk
+            yarn add amazon-cognito-identity-js
+            yarn add aws-sdk
             yarn link aws-amplify-angular
             yarn link @aws-amplify/core
             yarn link @aws-amplify/auth
