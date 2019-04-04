@@ -70,6 +70,9 @@ jobs:
           command: |
             cd packages/aws-amplify-angular
             yarn link
+      - run:
+          name: Avoid hosts unknown for github
+          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run: 
           name: "Clone auth test package link amplify packages"
           command: |
