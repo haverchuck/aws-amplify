@@ -66,6 +66,26 @@ jobs:
             cd packages/aws-amplify
             yarn link
       - run:
+          name: "Link @aws-amplify/core"
+          command: |
+            cd packages/core
+            yarn link
+      - run:
+          name: "Link @aws-amplify/auth"
+          command: |
+            cd packages/auth
+            yarn link
+      - run:
+          name: "Link @aws-amplify/storage"
+          command: |
+            cd packages/storage
+            yarn link
+      - run:
+          name: "Link @aws-amplify/interactions"
+          command: |
+            cd packages/interactions
+            yarn link
+      - run:
           name: "Link aws-amplify-angular"
           command: |
             cd packages/aws-amplify-angular
@@ -82,6 +102,10 @@ jobs:
             yarn
             yarn link aws-amplify
             yarn link aws-amplify-angular
+            yarn link @aws-amplify/core
+            yarn link @aws-amplify/auth
+            yarn link @aws-amplify/storage
+            yarn link @aws-amplify/interactions
             echo $AWS_EXPORTS_AUTH > src/aws-exports.js
             yarn start
       - run:
