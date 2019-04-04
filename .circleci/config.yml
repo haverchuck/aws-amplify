@@ -89,7 +89,6 @@ jobs:
           command: |
             cd ~/angular-7-sample-modularized
             ng serve
-          background: true
       - run:
           name: "Run cypress tests for aws-amplify-angular"
           command: |
