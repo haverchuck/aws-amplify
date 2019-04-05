@@ -61,14 +61,19 @@ jobs:
       - restore_cache:
           key: amplify-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
-          name: "Link aws-amplify"
-          command: |
-            cd packages/aws-amplify
-            yarn link
-      - run:
           name: "Link @aws-amplify/core"
           command: |
             cd packages/core
+            yarn link
+      - run:
+          name: "Link amazon-cognito-identity-js"
+          command: |
+            cd packages/amazon-cognito-identity-js
+            yarn link
+      - run:
+          name: "Link amazon-cognito-auth-js"
+          command: |
+            cd packages/amazon-cognito-auth-js
             yarn link
       - run:
           name: "Link @aws-amplify/auth"
@@ -102,7 +107,10 @@ jobs:
             yarn
             yarn link @aws-amplify/core
             yarn link aws-amplify-angular
-            yarn add @aws-amplify/ui
+            yarn link amazon-cognito-identity-js
+            yarn link amazon-cognito-auth-js
+            yarn add aws-sdk
+            yarn link @aws-amplify/ui
             yarn link @aws-amplify/auth
             yarn link @aws-amplify/storage
             yarn link @aws-amplify/interactions
