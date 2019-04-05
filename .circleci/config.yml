@@ -118,6 +118,11 @@ jobs:
             yarn start
           background: true
       - run:
+          shell: /bin/sh
+          command: |
+            wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 10 http://localhost:4200
+            :
+      - run:
           name: "Run cypress tests for aws-amplify-angular package"
           command: |
             yarn cypress --scope aws-amplify-angular
