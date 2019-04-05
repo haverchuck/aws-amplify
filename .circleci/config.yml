@@ -114,7 +114,7 @@ jobs:
       - run:
           name: "Start Auth test server in background"
           command: |
-            cd ~/aws-amplify-cypress-auth
+            cd ~/angular-7-sample-modularized
             yarn start
           background: true
       - run:
