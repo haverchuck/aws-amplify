@@ -100,13 +100,9 @@ jobs:
             git clone $ANGULAR_CLONE_URL
             cd angular-7-sample-modularized
             yarn
-            yarn link aws-amplify
-            yarn add amazon-cognito-identity-js
-            yarn add amazon-cognito-auth-js
-            yarn add @aws-amplify/ui
-            yarn add aws-sdk
-            yarn link aws-amplify-angular
             yarn link @aws-amplify/core
+            yarn link aws-amplify-angular
+            yarn add @aws-amplify/ui
             yarn link @aws-amplify/auth
             yarn link @aws-amplify/storage
             yarn link @aws-amplify/interactions
