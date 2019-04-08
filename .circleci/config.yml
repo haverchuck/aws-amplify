@@ -53,7 +53,8 @@ jobs:
       - run: yarn run test --scope aws-amplify-react
       - run: yarn run test --scope aws-amplify-angular
       - run: yarn run test --scope aws-amplify-vue
-  integration_test_angular:
+  
+  integration_test_angular_7_modularized:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -116,17 +117,79 @@ jobs:
             yarn link @aws-amplify/storage
             yarn link @aws-amplify/interactions
             echo $AWS_EXPORTS_ANGULAR | base64 --decode > src/aws-exports.ts
+      
       - run:
-          name: "Start Auth test server in background"
+          name: "Run cypress tests for aws-amplify-angular package"
           command: |
-            cd ~/angular-7-sample-modularized
-            yarn start
-          background: true
+            yarn cypress --scope aws-amplify-angular
+      - store_artifacts:
+          path: /root/app/packages/aws-amplify-angular/cypress/videos
+      - store_artifacts:
+          path: /root/app/packages/aws-amplify-angular/cypress/screenshots
+  integration_test_angular_7_full_service:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run:
-          shell: /bin/sh
+          name: "Link @aws-amplify/core"
           command: |
-            wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 10 http://localhost:4200
-            :
+            cd packages/core
+            yarn link
+      - run:
+          name: "Link amazon-cognito-identity-js"
+          command: |
+            cd packages/amazon-cognito-identity-js
+            yarn link
+      - run:
+          name: "Link @aws-amplify/ui"
+          command: |
+            cd packages/amplify-ui
+            yarn link
+      - run:
+          name: "Link @aws-amplify/auth"
+          command: |
+            cd packages/auth
+            yarn link
+      - run:
+          name: "Link @aws-amplify/storage"
+          command: |
+            cd packages/storage
+            yarn link
+      - run:
+          name: "Link @aws-amplify/interactions"
+          command: |
+            cd packages/interactions
+            yarn link
+      - run:
+          name: "Link aws-amplify-angular"
+          command: |
+            cd packages/aws-amplify-angular
+            yarn link
+      - run:
+          name: Avoid hosts unknown error for github
+          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run: 
+          name: "Clone auth test package link amplify packages"
+          command: |
+            cd ~
+            git clone $ANGULAR_CLONE_URL
+            cd angular-7-sample-modularized
+            yarn
+            yarn link @aws-amplify/core
+            yarn link aws-amplify-angular
+            yarn link amazon-cognito-identity-js
+            yarn add amazon-cognito-auth-js
+            yarn add crypto-js
+            yarn add aws-sdk
+            yarn link @aws-amplify/ui
+            yarn link @aws-amplify/auth
+            yarn link @aws-amplify/storage
+            yarn link @aws-amplify/interactions
+            echo $AWS_EXPORTS_ANGULAR | base64 --decode > src/aws-exports.ts
+      
       - run:
           name: "Run cypress tests for aws-amplify-angular package"
           command: |
