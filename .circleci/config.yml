@@ -71,11 +71,6 @@ jobs:
             cd packages/amazon-cognito-identity-js
             yarn link
       - run:
-          name: "Link amazon-cognito-auth-js"
-          command: |
-            cd packages/amazon-cognito-auth-js
-            yarn link
-      - run:
           name: "Link @aws-amplify/auth"
           command: |
             cd packages/auth
@@ -108,7 +103,7 @@ jobs:
             yarn link @aws-amplify/core
             yarn link aws-amplify-angular
             yarn link amazon-cognito-identity-js
-            yarn link amazon-cognito-auth-js
+            yarn add amazon-cognito-auth-js
             yarn add aws-sdk
             yarn link @aws-amplify/ui
             yarn link @aws-amplify/auth
