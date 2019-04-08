@@ -114,7 +114,7 @@ jobs:
             yarn link @aws-amplify/auth
             yarn link @aws-amplify/storage
             yarn link @aws-amplify/interactions
-            echo $AWS_EXPORTS_ANGULAR | base64 --decode > src/aws-exports.js
+            echo $AWS_EXPORTS_ANGULAR | base64 --decode > src/aws-exports.ts
       - run:
           name: "Start Auth test server in background"
           command: |
