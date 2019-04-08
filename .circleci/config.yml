@@ -281,7 +281,10 @@ workflows:
       - unit_test:
           requires:
             - build
-      - integration_test_angular:
+      - integration_test_angular_7_modularized:
+          requires:
+            - build
+      - integration_test_angular_7_full_service:
           requires:
             - build
       # - deploy:
