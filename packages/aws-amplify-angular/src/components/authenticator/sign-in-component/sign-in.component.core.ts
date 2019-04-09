@@ -108,7 +108,7 @@ export class SignInComponentCore implements OnInit {
 
   ngOnInit() {
     if (!this.amplifyService.auth()){
-      this.logger.warn('Auth module not registered on AmplifyService provider');
+      throw new Error('Auth module not registered on AmplifyService provider');
     }
   }
 
@@ -141,7 +141,7 @@ export class SignInComponentCore implements OnInit {
   }
 
   onForgotPassword() {
-    const user = this.username? { username: this.username } : null;
+    const user = this.username ? { username: this.username } : null;
     this.amplifyService.setAuthState({ state: 'forgotPassword', user });
   }
 

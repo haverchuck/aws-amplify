@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.3.5"></a>
+## [2.3.5](https://github.com/aws/aws-amplify/compare/aws-amplify-react@2.3.5-unstable.1...aws-amplify-react@2.3.5) (2019-04-09)
+
+
+
+
+**Note:** Version bump only for package aws-amplify-react
+
+<a name="2.3.5-unstable.1"></a>
+## [2.3.5-unstable.1](https://github.com/aws/aws-amplify/compare/aws-amplify-react@2.3.5-unstable.0...aws-amplify-react@2.3.5-unstable.1) (2019-04-08)
+
+
+### Features
+
+* **@aws-amplify/auth:** Easier Federation with OAuth ([#3005](https://github.com/aws/aws-amplify/issues/3005)) ([76cde59](https://github.com/aws/aws-amplify/commit/76cde59))
+
+
+
+
 <a name="2.3.5-unstable.0"></a>
 ## [2.3.5-unstable.0](https://github.com/aws/aws-amplify/compare/aws-amplify-react@2.3.4...aws-amplify-react@2.3.5-unstable.0) (2019-04-04)
 
