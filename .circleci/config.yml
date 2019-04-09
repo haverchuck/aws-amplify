@@ -245,7 +245,7 @@ jobs:
           command: |
             cd ~
             git clone $AMPLIFY_ANGULAR_7_FULL_SERVICE
-            cd angular-7-sample-full-servicec
+            cd angular-7-sample-full-service
             yarn
             yarn add aws-amplify
             yarn link aws-amplify-angular
