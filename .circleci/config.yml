@@ -136,7 +136,7 @@ jobs:
           path: /root/app/packages/aws-amplify-angular/cypress/videos
       - store_artifacts:
           path: /root/app/packages/aws-amplify-angular/cypress/screenshots
-          
+        
   integration_test_angular_7_modularized_aot:
     <<: *defaults
     steps:
@@ -204,6 +204,57 @@ jobs:
           name: Start angular test server in background
           command: |
             cd ~/angular-7-sample-modularized
+            yarn aot
+          background: true
+      - run:
+          shell: /bin/sh
+          command: |
+            wget --retry-connrefused --waitretry=1 --read-timeout=200 --timeout=200 -t 200 http://localhost:4200
+            :
+      - run:
+          name: "Run cypress tests for aws-amplify-angular package"
+          command: |
+            yarn cypress --scope aws-amplify-angular
+      - store_artifacts:
+          path: /root/app/packages/aws-amplify-angular/cypress/videos
+      - store_artifacts:
+          path: /root/app/packages/aws-amplify-angular/cypress/screenshots
+
+  integration_test_angular_7_full_service:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ./
+      - restore_cache:
+          key: amplify-yarn-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: "Link @aws-amplify/ui"
+          command: |
+            cd packages/amplify-ui
+            yarn link
+      - run:
+          name: "Link aws-amplify-angular"
+          command: |
+            cd packages/aws-amplify-angular
+            yarn link
+      - run:
+          name: Avoid hosts unknown error for github
+          command: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run: 
+          name: "Clone auth test package link amplify packages"
+          command: |
+            cd ~
+            git clone $AMPLIFY_ANGULAR_7_FULL_SERVICE
+            cd angular-7-sample-full-servicec
+            yarn
+            yarn add aws-amplify
+            yarn link aws-amplify-angular
+            yarn link @aws-amplify/ui 
+            echo $AWS_EXPORTS | base64 --decode > src/aws-exports.ts
+      - run:
+          name: Start angular test server in background
+          command: |
+            cd ~/angular-7-sample-full-service
             yarn aot
           background: true
       - run:
@@ -296,6 +347,9 @@ workflows:
           requires:
             - build
       - integration_test_angular_7_modularized_aot:
+          requires:
+            - build
+      - integration_test_angular_7_full_service:
           requires:
             - build
       # - deploy:
