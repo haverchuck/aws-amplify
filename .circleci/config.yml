@@ -255,7 +255,7 @@ jobs:
           name: Start angular test server in background
           command: |
             cd ~/angular-7-sample-full-service
-            yarn aot
+            yarn start
           background: true
       - run:
           shell: /bin/sh
