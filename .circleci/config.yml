@@ -233,6 +233,11 @@ jobs:
             cd packages/amplify-ui
             yarn link
       - run:
+          name: "Link aws-amplify"
+          command: |
+            cd packages/aws-amplify
+            yarn link
+      - run:
           name: "Link aws-amplify-angular"
           command: |
             cd packages/aws-amplify-angular
@@ -247,7 +252,7 @@ jobs:
             git clone $AMPLIFY_ANGULAR_7_FULL_SERVICE
             cd angular-7-sample-full-service
             yarn
-            yarn add aws-amplify
+            yarn link aws-amplify
             yarn link aws-amplify-angular
             yarn link @aws-amplify/ui 
             echo $AWS_EXPORTS | base64 --decode > src/aws-exports.ts
