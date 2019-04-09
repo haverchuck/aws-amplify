@@ -405,7 +405,7 @@ workflows:
             - build
       - integration_test_angular_6_full_service:
           requires:
-            -build
+            - build
       # - deploy:
       #     filters:
       #       branches:
