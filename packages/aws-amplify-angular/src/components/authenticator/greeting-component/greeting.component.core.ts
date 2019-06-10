@@ -13,10 +13,10 @@
  */
 // tslint:enable
 
-import { UsernameAttributes } from '../types';
 import { Component, Input, OnInit, Inject } from '@angular/core';
-import { AmplifyService } from '../../../providers/amplify.service';
-import { AuthState } from '../../../providers/auth.state';
+import { AmplifyService, AuthState } from '../../../providers';
+import { constants } from '../common';
+import { UsernameAttributes } from '../types';
 import { auth } from '../../../assets/data-test-attributes';
 import { constants } from '../common'
 
@@ -73,16 +73,19 @@ export class GreetingComponentCore implements OnInit {
     let username = "";
     if (authState.user) {
       if (this._usernameAttributes === UsernameAttributes.EMAIL) {
-        username = authState.user.attributes? authState.user.attributes.email : authState.user.username;
+        username = authState.user.attributes ?
+        authState.user.attributes.email : authState.user.username;
       } else if (this._usernameAttributes === UsernameAttributes.PHONE_NUMBER) {
-        username = authState.user.attributes? authState.user.attributes.phone_number : authState.user.username;
+        username = authState.user.attributes ?
+        authState.user.attributes.phone_number : authState.user.username;
       } else {
         username = authState.user.username;
       }
     }
     
     this.greeting = this.signedIn
-      ? this.amplifyService.i18n().get("Hello, {{username}}").replace('{{username}}', username || authState.user.username || authState.user.name)
+      ? this.amplifyService.i18n().get("Hello, {{username}}")
+        .replace('{{username}}', username || authState.user.username || authState.user.name)
       : "";
   }
 
@@ -135,7 +138,7 @@ export class GreetingComponentCore implements OnInit {
       payload = JSON.parse(localStorage.getItem(constants.AUTH_SOURCE_KEY)) || {};
       localStorage.removeItem(constants.AUTH_SOURCE_KEY);
     } catch (e) {
-      // this.logger.debug(`Failed to parse the info from ${constants.AUTH_SOURCE_KEY} from localStorage with ${e}`);
+      this.logger.debug(`Failed to parse the info from ${constants.AUTH_SOURCE_KEY} from localStorage with ${e}`);
     }
 
     switch (payload.provider) {
