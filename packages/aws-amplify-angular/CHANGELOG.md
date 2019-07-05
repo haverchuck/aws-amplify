@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<<<<<<< HEAD
 <a name="3.0.5-unstable.0"></a>
 ## [3.0.5-unstable.0](https://github.com/aws-amplify/amplify-js/compare/aws-amplify-angular@3.0.4...aws-amplify-angular@3.0.5-unstable.0) (2019-06-18)
 
@@ -18,6 +19,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 **Note:** Version bump only for package aws-amplify-angular
+=======
+<a name="3.0.4-angular-vue-federation.0"></a>
+## [3.0.4-angular-vue-federation.0](https://github.com/OrozcoJonathan/amplify-js/compare/aws-amplify-angular@2.1.9-unstable.2...aws-amplify-angular@3.0.4-angular-vue-federation.0) (2019-07-05)
+
+
+### Bug Fixes
+
+* add a todo to the greeting object in order to adjust the Angular Greeting Component to match React, fix typo in requireNewPassword ([49eae14](https://github.com/OrozcoJonathan/amplify-js/commit/49eae14))
+* **aws-amplify:** manual version bumps for lerna issue ([9ce5a72](https://github.com/OrozcoJonathan/amplify-js/commit/9ce5a72))
+* **aws-amplify-angular:** clears error message on state change ([b19de01](https://github.com/OrozcoJonathan/amplify-js/commit/b19de01))
+* **aws-amplify-angular:** moves rxjs-compat to dependencies ([83e1cc2](https://github.com/OrozcoJonathan/amplify-js/commit/83e1cc2))
+* **aws-amplify-angular:** preparing release ([84f261a](https://github.com/OrozcoJonathan/amplify-js/commit/84f261a))
+
+
+### Features
+
+* **aws-amplify-angular/auth:** init commit ([4c29f82](https://github.com/OrozcoJonathan/amplify-js/commit/4c29f82))
+
+
+
+>>>>>>> Publish
 
 <a name="3.0.4-unstable.3"></a>
 ## [3.0.4-unstable.3](https://github.com/aws-amplify/amplify-js/compare/aws-amplify-angular@3.0.4-unstable.2...aws-amplify-angular@3.0.4-unstable.3) (2019-06-06)
