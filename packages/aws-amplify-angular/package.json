@@ -1,10 +1,6 @@
 {
   "name": "aws-amplify-angular",
-<<<<<<< HEAD
   "version": "3.0.5-unstable.0",
-=======
-  "version": "3.0.4-angular-vue-federation.0",
->>>>>>> Publish
   "description": "AWS Amplify Angular Components",
   "main": "bundles/aws-amplify-angular.umd.js",
   "module": "dist/index.js",
@@ -72,11 +68,7 @@
     "zone.js": "^0.8.26"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@aws-amplify/ui": "^1.0.20",
-=======
-    "@aws-amplify/ui": "1.0.20-angular-vue-federation.0",
->>>>>>> Publish
     "rxjs-compat": "^6.2.1"
   }
 }
