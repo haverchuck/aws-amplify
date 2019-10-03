@@ -1504,20 +1504,10 @@ export default class AuthClass {
 				},
 				onFailure: err => {
 					logger.debug('forgot password failure', err);
-					dispatchAuthEvent(
-						'forgotPassword_failure',
-						err,
-						`${username} forgotPassword failed`
-					);
 					reject(err);
 					return;
 				},
 				inputVerificationCode: data => {
-					dispatchAuthEvent(
-						'forgotPassword',
-						user,
-						`${username} has initiated forgot password flow`
-					);
 					resolve(data);
 					return;
 				},
