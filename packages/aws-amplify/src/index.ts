@@ -19,6 +19,9 @@ import Analytics, {
 	AmazonPersonalizeProvider,
 } from '@aws-amplify/analytics';
 import Auth, { AuthClass } from '@aws-amplify/auth';
+
+import Auth2, { AuthClassTest } from '@aws-amplify/auth2';
+
 import Storage, { StorageClass } from '@aws-amplify/storage';
 import API, { APIClass, graphqlOperation } from '@aws-amplify/api';
 import PubSub, { PubSubClass } from '@aws-amplify/pubsub';
@@ -43,6 +46,9 @@ import Amplify, {
 export default Amplify;
 
 Amplify.Auth = Auth;
+
+Amplify.Auth2 = Auth2;
+
 Amplify.Analytics = Analytics;
 Amplify.API = API;
 Amplify.Storage = Storage;
@@ -58,6 +64,7 @@ Amplify.Predictions = Predictions;
 
 export {
 	Auth,
+	Auth2,
 	Analytics,
 	Storage,
 	API,
@@ -78,6 +85,7 @@ export {
 
 export {
 	AuthClass,
+	AuthClassTest,
 	AnalyticsClass,
 	APIClass,
 	StorageClass,

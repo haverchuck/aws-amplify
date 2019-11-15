@@ -1,5 +1,11 @@
 export default class AuthClassTest {
-	constructor() {
-		console.log('Auth2 constructed');
+	constructor(options?) {
+		this.configure(options);
+
+		console.log('CONSTRUCTED');
+	}
+
+	configure(config?) {
+		console.log('CONFIGURED');
 	}
 }

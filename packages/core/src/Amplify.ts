@@ -9,6 +9,9 @@ export default class Amplify {
 	// for backward compatibility to avoid breaking change
 	// if someone is using like Amplify.Auth
 	static Auth = null;
+
+	static Auth2 = null;
+
 	static Analytics = null;
 	static API = null;
 	static Storage = null;
