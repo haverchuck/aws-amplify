@@ -6,6 +6,9 @@ module.exports = {
 		'@aws-amplify/analytics',
 		'@aws-amplify/api',
 		'@aws-amplify/auth',
+
+		'@aws-amplify/auth2',
+
 		'@aws-amplify/cache',
 		'@aws-amplify/core',
 		'@aws-amplify/interactions',
