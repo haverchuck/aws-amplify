@@ -1,11 +1,7 @@
-import {
-	AuthStore,
-	AuthStoreUpdate,
-	IAuthClient,
-	CognitoUserPoolParams,
-} from '../types';
+import { AuthStore, AuthStoreUpdate, IAuthClient } from '../../types';
+import { CognitoUserPoolParams } from './';
 
-import { AuthenticationHelper } from '../utils';
+import { AuthenticationHelper } from '../../utils';
 
 class CognitoUserPoolClient implements IAuthClient {
 	clientParameters;
@@ -69,6 +65,10 @@ class CognitoUserPoolClient implements IAuthClient {
 		let result = await fetch(this.endpoint, options);
 		return result;
 	};
+
+	storagePrefix() {
+		return this.clientParameters.userPoolWebClientId;
+	}
 }
 
 export { CognitoUserPoolClient };

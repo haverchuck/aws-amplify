@@ -1,4 +1,6 @@
-import { AuthStore, AuthStoreUpdate, IAuthClient, Auth0Params } from '../types';
+import { AuthStore, AuthStoreUpdate, IAuthClient } from '../../types';
+import { Auth0Params } from './';
+import { launchUri } from '../../utils';
 
 class Auth0Client implements IAuthClient {
 	clientParameters;
@@ -12,6 +14,9 @@ class Auth0Client implements IAuthClient {
 		clientConfiguration?: Partial<IAuthClient>
 	) {
 		this.endpoint = auth0Params.endpoint;
+		this.clientParameters = {
+			clientId: auth0Params.client_id,
+		};
 		this.defaultHeaders = {
 			response_type: 'token',
 			client_id: auth0Params.client_id,
@@ -25,10 +30,13 @@ class Auth0Client implements IAuthClient {
 	}
 
 	signIn = async signInParams => {
-		let signInEndpoint = `https://dev-mpndax-h.auth0.com/authorize?response_type=token%20id_token&client_id=${this.defaultHeaders.client_id}&redirect_uri=${this.defaultHeaders.redirect_uri}&scope=openid`;
-		let result = await fetch(signInEndpoint, this.defaultOptions);
-		return result;
+		let signInEndpoint = `https://dev-mpndax-h.auth0.com/authorize?response_type=code&client_id=${this.defaultHeaders.client_id}&redirect_uri=${this.defaultHeaders.redirect_uri}&scope=openid`;
+		launchUri(signInEndpoint);
 	};
+
+	storagePrefix() {
+		return this.clientParameters.clientId;
+	}
 }
 
 export { Auth0Client };

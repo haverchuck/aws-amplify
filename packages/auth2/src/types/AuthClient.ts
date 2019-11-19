@@ -6,6 +6,7 @@ interface IAuthClient {
 	name: string;
 	urlListener?: UrlListener;
 	signIn: (signInParams: any) => Promise<any>;
+	storagePrefix: () => string;
 }
 
 type UrlListener = {

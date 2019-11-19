@@ -1,7 +1,6 @@
 type AuthStore = {
-	plugin: string;
 	sessionId: string;
-	credentials: {
+	credentials?: {
 		clockDrift?: number;
 		tokens: {
 			accessToken?: string;
@@ -17,11 +16,11 @@ type AuthStore = {
 			providerSpecific?: any;
 		};
 	};
-	device: {
+	device?: {
 		deviceKey?: string;
 		pushToken?: string;
 	};
-	user: {
+	user?: {
 		isGuest: boolean;
 		attributes: {
 			// standard attributes from OIDC spec
@@ -54,17 +53,17 @@ type AuthStore = {
 };
 
 enum AuthState {
-	signedOut,
-	signedIn,
-	signingUp,
-	confirmingSignUp,
-	confirmingSignUpCustomFlow,
-	confirmingSignIn,
-	confirmingSignInCustomFlow,
-	verifyingAttributes,
-	forgotPassword,
-	resettingPassword,
-	settingMFA,
+	signedOut = 'signedOut',
+	signedIn = 'signedIn',
+	signingUp = 'signingUp',
+	confirmingSignUp = 'confirmingSignUp',
+	confirmingSignUpCustomFlow = 'confirmingSignUpCustomFlow',
+	confirmingSignIn = 'confirmingSignIn',
+	confirmingSignInCustomFlow = 'confirmingSignInCustomFlow',
+	verifyingAttributes = 'verifyingAttributes',
+	forgotPassword = 'forgotPassword',
+	resettingPassword = 'resettingPassword',
+	settingMFA = 'settingMFA',
 }
 
 type OAuthProvider = {
@@ -83,4 +82,16 @@ enum OAuthFlows {
 	AuthorizationCodeGrant,
 }
 
-export { AuthStore, AuthStoreUpdate, AuthState, OAuthProvider, OAuthFlows };
+type InitStoreParams = {
+	sessionId: string;
+	config: any;
+};
+
+export {
+	AuthStore,
+	AuthStoreUpdate,
+	AuthState,
+	OAuthProvider,
+	OAuthFlows,
+	InitStoreParams,
+};

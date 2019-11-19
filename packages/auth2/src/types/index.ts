@@ -2,16 +2,19 @@ import { IAuthClient, UrlListener } from './AuthClient';
 
 import { AuthConfig } from './AuthConfig';
 
-import { AuthStore, AuthStoreUpdate } from './AuthStore';
-
-import { Auth0Params, CognitoUserPoolParams } from './ClientParams';
-
-export {
-	Auth0Params,
-	AuthConfig,
+import {
+	AuthState,
 	AuthStore,
 	AuthStoreUpdate,
-	CognitoUserPoolParams,
+	InitStoreParams,
+} from './AuthStore';
+
+export {
+	AuthConfig,
+	AuthState,
+	AuthStore,
+	AuthStoreUpdate,
 	IAuthClient,
+	InitStoreParams,
 	UrlListener,
 };
