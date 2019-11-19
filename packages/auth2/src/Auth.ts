@@ -1,16 +1,36 @@
+import { Parser } from '@aws-amplify/core';
+
+import { AuthConfig, IAuthClient } from './types';
+
+import { Auth0Client, CognitoUserPoolClient } from './clients';
+
+import { StorageHelper } from './DefaultStorage';
+
 export default class AuthClassTest {
-	private _configured: boolean = false;
+	private _config: AuthConfig;
+	public defaultClient: IAuthClient;
+	public availableClients: IAuthClient[];
+	public storage: any;
 
 	constructor(options?) {
-		if (!this._configured) {
-			this.configure(options);
-		}
-
 		console.log('CONSTRUCTED');
 	}
 
-	configure(config?) {
+	configure(config) {
 		console.log('CONFIGURED');
-		this._configured = true;
+		// if 'clients' property is missing, we assume legacy configuration of single userpool/idpool
+		if (!config.clients || config.clients.length < 1) {
+			this.defaultClient = new Auth0Client(config) as IAuthClient;
+		}
+
+		this.storage = new StorageHelper();
+	}
+
+	public async signIn(username: string, password: string, client?: string) {
+		await this.defaultClient.signIn({ username, password });
+	}
+
+	public getModuleName() {
+		return 'Auth';
 	}
 }
