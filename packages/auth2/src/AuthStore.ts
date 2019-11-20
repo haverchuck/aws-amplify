@@ -1,7 +1,11 @@
 import { DeepDiff } from 'deep-diff';
-import { AuthState, AuthStore, InitStoreParams } from './types';
+import {
+	AuthState,
+	AuthStore,
+	AuthStoreUpdate,
+	InitStoreParams,
+} from './types';
 import { STRINGS } from './constants';
-import { stringList } from 'aws-sdk/clients/datapipeline';
 
 const createAuthStore = (storage, params: InitStoreParams) => {
 	const newStore: AuthStore = {
@@ -9,12 +13,33 @@ const createAuthStore = (storage, params: InitStoreParams) => {
 		config: params.config,
 		authState: AuthState.signedOut,
 	};
-	storage.setItem(
-		`${STRINGS.AUTHSTORE_PREFIX}${newStore.sessionId}`,
-		JSON.stringify(newStore)
-	);
+	const sessionKey = `${STRINGS.AUTHSTORE_PREFIX}${newStore.sessionId}`;
+	const existingSession = storage.getItem(sessionKey);
+	if (!existingSession) {
+		storage.setItem(sessionKey, JSON.stringify(newStore));
+	}
+	return sessionKey;
 };
 
-const updateAuthStore = (newAuthStore: Partial<AuthStore>, storage) => {};
+const updateAuthStore = (
+	sessionId: string,
+	newAuthStore: Partial<AuthStore>,
+	storage
+): AuthStoreUpdate => {
+	let response: AuthStoreUpdate;
+	let previous = storage.getItem(sessionId);
+	let diff = DeepDiff(previous, newAuthStore);
+	response = {
+		previous,
+		current: {
+			sessionId,
+			config: {},
+			authState: newAuthStore.authState || previous.authState,
+		},
+		diff,
+	};
+	storage.setItem(sessionId, response.current);
+	return response;
+};
 
 export { createAuthStore, updateAuthStore };

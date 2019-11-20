@@ -20,6 +20,12 @@ type AuthStore = {
 		deviceKey?: string;
 		pushToken?: string;
 	};
+	user?: AuthUser;
+	config: any;
+	authState: AuthState;
+};
+
+type AuthUser = {
 	user?: {
 		isGuest: boolean;
 		attributes: {
@@ -48,8 +54,6 @@ type AuthStore = {
 			providerAttributes?: any;
 		};
 	};
-	config: any;
-	authState: AuthState;
 };
 
 enum AuthState {
@@ -75,6 +79,7 @@ type OAuthProvider = {
 type AuthStoreUpdate = {
 	previous: AuthStore;
 	current: AuthStore;
+	diff: Partial<AuthStore>;
 };
 
 enum OAuthFlows {
@@ -91,6 +96,7 @@ export {
 	AuthStore,
 	AuthStoreUpdate,
 	AuthState,
+	AuthUser,
 	OAuthProvider,
 	OAuthFlows,
 	InitStoreParams,

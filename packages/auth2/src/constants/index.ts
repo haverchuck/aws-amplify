@@ -1,3 +1,4 @@
 import { STRINGS } from './strings';
+import { MAPS } from './maps';
 
-export { STRINGS };
+export { MAPS, STRINGS };

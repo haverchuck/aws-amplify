@@ -1,4 +1,10 @@
-import { AuthStore, AuthStoreUpdate, IAuthClient } from '../../types';
+import {
+	AuthStore,
+	AuthStoreUpdate,
+	IAuthClient,
+	SignInParams,
+	SignInResult,
+} from '../../types';
 import { Auth0Params } from './';
 import { launchUri } from '../../utils';
 
@@ -32,6 +38,9 @@ class Auth0Client implements IAuthClient {
 	signIn = async signInParams => {
 		let signInEndpoint = `https://dev-mpndax-h.auth0.com/authorize?response_type=code&client_id=${this.defaultHeaders.client_id}&redirect_uri=${this.defaultHeaders.redirect_uri}&scope=openid`;
 		launchUri(signInEndpoint);
+
+		let result: SignInResult;
+		return result;
 	};
 
 	storagePrefix() {

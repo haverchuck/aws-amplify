@@ -274,13 +274,7 @@ export default class AuthenticationHelper {
 	 * @param {nodeCallback<Buffer>} callback Called with (err, hkdfValue)
 	 * @returns {void}
 	 */
-	getPasswordAuthenticationKey(
-		username,
-		password,
-		serverBValue,
-		salt,
-		callback
-	) {
+	getPasswordAuthenticationKey(username, password, serverBValue, salt) {
 		if (serverBValue.mod(this.N).equals(BigInteger.ZERO)) {
 			throw new Error('B cannot be zero.');
 		}
@@ -299,16 +293,12 @@ export default class AuthenticationHelper {
 			16
 		);
 		this.calculateS(xValue, serverBValue, (err, sValue) => {
-			if (err) {
-				callback(err, null);
-			}
-
 			const hkdf = this.computehkdf(
 				Buffer.from(this.padHex(sValue), 'hex'),
 				Buffer.from(this.padHex(this.UValue.toString(16)), 'hex')
 			);
 
-			callback(null, hkdf);
+			return hkdf;
 		});
 	}
 
