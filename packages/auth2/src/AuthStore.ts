@@ -27,18 +27,17 @@ const updateAuthStore = (
 	storage
 ): AuthStoreUpdate => {
 	let response: AuthStoreUpdate;
-	let previous = storage.getItem(sessionId);
+	let previous = JSON.parse(storage.getItem(sessionId));
 	let diff = DeepDiff(previous, newAuthStore);
+
+	let current = Object.assign(previous, newAuthStore);
+
 	response = {
 		previous,
-		current: {
-			sessionId,
-			config: {},
-			authState: newAuthStore.authState || previous.authState,
-		},
+		current,
 		diff,
 	};
-	storage.setItem(sessionId, response.current);
+	storage.setItem(sessionId, JSON.stringify(response.current));
 	return response;
 };
 

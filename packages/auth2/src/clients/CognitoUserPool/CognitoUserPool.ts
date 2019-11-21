@@ -1,11 +1,14 @@
 import {
+	AuthState,
 	AuthStore,
 	AuthStoreUpdate,
+	AuthUser,
 	IAuthClient,
 	SignInParams,
 	SignInResult,
 } from '../../types';
 import { CognitoUserPoolParams } from './';
+import { CognitoJwtToken } from './jwtUtil';
 import { AuthenticationHelper, BigInteger, DateHelper } from '../../utils';
 import { updateAuthStore } from '../../AuthStore';
 import CryptoJS from 'crypto-js/core';
@@ -77,13 +80,64 @@ class CognitoUserPoolClientClass implements IAuthClient {
 		}
 
 		let res = await this.parseSignInResponse(data, signInParams);
+
+		const {
+			aud,
+			auth_time,
+			email,
+			email_verified,
+			event_id,
+			exp,
+			iat,
+			iss,
+			phone_number,
+			phone_number_verified,
+			sub,
+			token_use,
+		} = this.decodeIdToken(res.AuthenticationResult.IdToken);
+
+		let user: AuthUser = {
+			attributes: {
+				aud,
+				email,
+				email_verified,
+				exp,
+				iat,
+				iss,
+				phone_number,
+				phone_number_verified,
+				sub,
+				providerAttributes: {
+					auth_time,
+					event_id,
+					token_use,
+				},
+			},
+		};
+
+		const tokens = {
+			accessToken: res.AuthenticationResult.AccessToken,
+			idToken: res.AuthenticationResult.IdToken,
+			refreshToken: res.AuthenticationResult.RefreshToken,
+			expiresAt: res.AuthenticationResult.ExpiresAt,
+		};
+
+		const authState =
+			res.ChallengeParameters && Object.keys(res.ChallengeParameters).length > 0
+				? AuthState.signedIn
+				: AuthState.confirmingSignIn;
+
+		return {
+			user,
+			tokens,
+			authState,
+		};
 	};
 
 	private parseSignInResponse = async (data, params) => {
 		switch (data.ChallengeName) {
 			case 'PASSWORD_VERIFIER':
-				await this.passwordVerifierResponse(data, params);
-				break;
+				return await this.passwordVerifierResponse(data, params);
 			default:
 				throw new Error('Unrecognized Challenge Name');
 		}
@@ -126,11 +180,17 @@ class CognitoUserPoolClientClass implements IAuthClient {
 			challengeResponses
 		);
 
+		return res;
+
 		// if (this.deviceKey != null) {
 		// 	challengeResponses.DEVICE_KEY = this.deviceKey;
 		// }
 	};
+	public storagePrefix = () => {
+		return this.clientParameters.userPoolWebClientId;
+	};
 
+	// PRIVATE HELPER FUNCTIONS
 	private formOptions = (
 		operation: string,
 		passedHeaders?: any,
@@ -151,11 +211,12 @@ class CognitoUserPoolClientClass implements IAuthClient {
 			ClientId: this.clientParameters.userPoolWebClientId,
 		});
 		let result = await fetch(this.endpoint, options);
-		return result;
+		return result.json();
 	};
 
-	storagePrefix() {
-		return this.clientParameters.userPoolWebClientId;
+	private decodeIdToken(token) {
+		const id = new CognitoJwtToken(token);
+		return id.decodePayload();
 	}
 }
 

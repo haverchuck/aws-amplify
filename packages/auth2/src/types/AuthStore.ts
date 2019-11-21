@@ -2,12 +2,7 @@ type AuthStore = {
 	sessionId: string;
 	credentials?: {
 		clockDrift?: number;
-		tokens: {
-			accessToken?: string;
-			idToken?: string;
-			refreshToken?: string;
-			expiresAt?: string;
-		};
+		tokens: Tokens;
 		providerCredentials?: {
 			secretKey?: string;
 			secretAccessKey?: string;
@@ -25,34 +20,43 @@ type AuthStore = {
 	authState: AuthState;
 };
 
+type Tokens = {
+	accessToken?: string;
+	idToken?: string;
+	refreshToken?: string;
+	expiresAt?: string;
+};
+
 type AuthUser = {
-	user?: {
-		isGuest: boolean;
-		attributes: {
-			// standard attributes from OIDC spec
-			sub?: string;
-			name?: string;
-			given_name?: string;
-			family_name?: string;
-			middle_name?: string;
-			nickname?: string;
-			preferred_username?: string;
-			profile?: string;
-			picture?: string;
-			website?: string;
-			email?: string;
-			email_verified?: boolean;
-			gender?: string;
-			birthdate?: string;
-			zoneinfo?: string;
-			locale?: string;
-			phone_number?: string;
-			phone_number_verified?: boolean;
-			address?: any;
-			updated_at?: number;
-			// storage of non-standard attributes
-			providerAttributes?: any;
-		};
+	isGuest?: boolean;
+	attributes: {
+		// standard attributes from OIDC spec
+		aud?: string;
+		iat?: string;
+		iss?: string;
+		exp?: string;
+		sub?: string;
+		name?: string;
+		given_name?: string;
+		family_name?: string;
+		middle_name?: string;
+		nickname?: string;
+		preferred_username?: string;
+		profile?: string;
+		picture?: string;
+		website?: string;
+		email?: string;
+		email_verified?: boolean;
+		gender?: string;
+		birthdate?: string;
+		zoneinfo?: string;
+		locale?: string;
+		phone_number?: string;
+		phone_number_verified?: boolean;
+		address?: any;
+		updated_at?: number;
+		// storage of non-standard attributes
+		providerAttributes?: any;
 	};
 };
 

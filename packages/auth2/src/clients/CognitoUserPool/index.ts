@@ -1,4 +1,4 @@
 import { CognitoUserPoolClient } from './CognitoUserPool';
-import { CognitoUserPoolParams } from './CognitoUserPoolParams';
+import { CognitoUserAttributes, CognitoUserPoolParams } from './types';
 
-export { CognitoUserPoolClient, CognitoUserPoolParams };
+export { CognitoUserAttributes, CognitoUserPoolClient, CognitoUserPoolParams };
