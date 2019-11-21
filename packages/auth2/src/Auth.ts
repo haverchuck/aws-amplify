@@ -1,6 +1,10 @@
 import { Parser } from '@aws-amplify/core';
 import { AuthConfig, IAuthClient, AuthStoreUpdate } from './types';
-import { Auth0Client, CognitoUserPoolClient } from './clients';
+import {
+	Auth0Client,
+	CognitoUserPoolClient,
+	CognitoIdentityPoolClient,
+} from './clients';
 import { StorageHelper } from './DefaultStorage';
 import { createAuthStore, updateAuthStore } from './AuthStore';
 import { selectClient } from './AuthMediator';
@@ -8,7 +12,9 @@ import { selectClient } from './AuthMediator';
 export default class AuthClassTest {
 	private _config: AuthConfig;
 	private _currentSessionId: string;
-	public defaultClient: IAuthClient;
+	public defaultNClient: IAuthClient;
+	public defaultZClient: IAuthClient;
+
 	public availableClients: IAuthClient[];
 	public storage: any;
 
@@ -20,11 +26,12 @@ export default class AuthClassTest {
 		console.log('CONFIGURED');
 		// if 'clients' property is missing, we assume legacy configuration of single userpool/idpool
 		if (!config.clients || config.clients.length < 1) {
-			this.defaultClient = CognitoUserPoolClient(config) as IAuthClient;
+			this.defaultNClient = CognitoUserPoolClient(config);
+			this.defaultZClient = CognitoIdentityPoolClient(config);
 		}
 		this.storage = new StorageHelper().storageWindow;
 		this._currentSessionId = createAuthStore(this.storage, {
-			sessionId: this.defaultClient.storagePrefix(),
+			sessionId: this.defaultNClient.storagePrefix(),
 			config,
 		});
 	}
@@ -34,7 +41,7 @@ export default class AuthClassTest {
 		password: string,
 		client?: IAuthClient
 	) {
-		let result = await selectClient(this.defaultClient, client).signIn({
+		let result = await selectClient(this.defaultNClient, client).signIn({
 			username,
 			password,
 		});
@@ -43,6 +50,14 @@ export default class AuthClassTest {
 			result,
 			this.storage
 		);
+	}
+
+	public async prepareCredentials(client?: IAuthClient) {
+		let result = await selectClient(
+			this.defaultZClient,
+			client
+		).prepareCredentials();
+		return result;
 	}
 
 	public getModuleName() {

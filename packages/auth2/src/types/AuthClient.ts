@@ -1,14 +1,15 @@
 import { AuthStore, GeneralAuthError, SignInParams, SignInResult } from './';
 
 interface IAuthClient {
-	defaultHeaders: any;
-	defaultOptions: any;
-	endpoint: string;
 	name: string;
+	defaultHeaders?: any;
+	defaultOptions?: any;
+	endpoint: string;
 	clientParameters?: any;
 	urlListener?: UrlListener;
-	signIn: (signInParams: SignInParams) => Promise<SignInResult>;
-	storagePrefix: () => string;
+	signIn?: (signInParams: SignInParams) => Promise<SignInResult>;
+	storagePrefix?: () => string;
+	prepareCredentials?: () => {};
 }
 
 type UrlListener = {

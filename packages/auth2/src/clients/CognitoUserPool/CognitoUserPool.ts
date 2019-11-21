@@ -39,7 +39,6 @@ class CognitoUserPoolClientClass implements IAuthClient {
 			userPoolId: cognitoUserPoolParams.aws_user_pools_id.split('_')[1],
 			userPoolWebClientId: cognitoUserPoolParams.aws_user_pools_web_client_id,
 			region: cognitoUserPoolParams.aws_cognito_region,
-			identityPoolId: cognitoUserPoolParams.aws_cognito_identity_pool_id,
 		};
 		this.endpoint = `https://cognito-idp.${cognitoUserPoolParams.aws_cognito_region}.amazonaws.com/`;
 		this.authenticationHelper = new AuthenticationHelper(
@@ -47,7 +46,7 @@ class CognitoUserPoolClientClass implements IAuthClient {
 		);
 	}
 
-	signIn = async (signInParams: SignInParams) => {
+	public signIn = async (signInParams: SignInParams) => {
 		// WILL PROBABLY MOVE THIS TO ANOTHER FUNCTION, AS NOT ALL FLOWS USE SRP
 		let srp;
 		this.authenticationHelper.getLargeAValue((errOnAValue, aValue) => {
