@@ -292,14 +292,14 @@ export default class AuthenticationHelper {
 			this.hexHash(this.padHex(salt) + usernamePasswordHash),
 			16
 		);
+		let hkdf;
 		this.calculateS(xValue, serverBValue, (err, sValue) => {
-			const hkdf = this.computehkdf(
+			hkdf = this.computehkdf(
 				Buffer.from(this.padHex(sValue), 'hex'),
 				Buffer.from(this.padHex(this.UValue.toString(16)), 'hex')
 			);
-
-			return hkdf;
 		});
+		return hkdf;
 	}
 
 	/**

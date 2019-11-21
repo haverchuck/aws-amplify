@@ -33,14 +33,14 @@ class CognitoUserPoolClientClass implements IAuthClient {
 
 	constructor(cognitoUserPoolParams: CognitoUserPoolParams) {
 		this.clientParameters = {
-			userPoolId: cognitoUserPoolParams.aws_user_pools_id,
+			userPoolId: cognitoUserPoolParams.aws_user_pools_id.split('_')[1],
 			userPoolWebClientId: cognitoUserPoolParams.aws_user_pools_web_client_id,
 			region: cognitoUserPoolParams.aws_cognito_region,
 			identityPoolId: cognitoUserPoolParams.aws_cognito_identity_pool_id,
 		};
 		this.endpoint = `https://cognito-idp.${cognitoUserPoolParams.aws_cognito_region}.amazonaws.com/`;
 		this.authenticationHelper = new AuthenticationHelper(
-			cognitoUserPoolParams.aws_user_pools_id
+			this.clientParameters.userPoolId
 		);
 	}
 
@@ -106,7 +106,7 @@ class CognitoUserPoolClientClass implements IAuthClient {
 		);
 		const message = CryptoJS.lib.WordArray.create(
 			Buffer.concat([
-				Buffer.from(this.clientParameters.userPoolId.split('_')[1], 'utf8'),
+				Buffer.from(this.clientParameters.userPoolId, 'utf8'),
 				Buffer.from(username, 'utf8'),
 				Buffer.from(challengeParameters.SECRET_BLOCK, 'base64'),
 				Buffer.from(date, 'utf8'),
@@ -136,15 +136,15 @@ class CognitoUserPoolClientClass implements IAuthClient {
 		passedHeaders?: any,
 		passedOptions?: any
 	) => {
-		let headers = Object.assign(this.defaultHeaders, passedHeaders);
-		let options = Object.assign(this.defaultOptions, passedOptions);
+		let headers = Object.assign({}, this.defaultHeaders, passedHeaders);
+		let options = Object.assign({}, this.defaultOptions, passedOptions);
 		headers['X-Amz-Target'] = `${headers['X-Amz-Target']}.${operation}`;
 		options.headers = headers;
 		return options;
 	};
 
 	private respond2AuthChallenge = async (challenge, response) => {
-		let options = this.formOptions(challenge);
+		let options = this.formOptions('RespondToAuthChallenge');
 		options.body = JSON.stringify({
 			ChallengeName: challenge,
 			ChallengeResponses: response,
