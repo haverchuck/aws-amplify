@@ -1,4 +1,10 @@
-import { AuthConfig, IAuthClient, AuthStoreUpdate } from './types';
+import {
+	AuthConfig,
+	BaseParams,
+	IAuthClient,
+	AuthStoreUpdate,
+	PrepareCredentialsParams,
+} from './types';
 import { CognitoUserPoolClient, CognitoIdentityPoolClient } from './clients';
 import { StorageHelper } from './DefaultStorage';
 import { createAuthStore, updateAuthStore } from './AuthStore';
@@ -31,14 +37,10 @@ export default class AuthClassTest {
 		});
 	}
 
-	public async signIn(
-		username: string,
-		password: string,
-		client?: IAuthClient
-	) {
+	public async signIn(signInParams, client?: IAuthClient) {
 		let result = await selectClient(this.defaultNClient, client).signIn({
-			username,
-			password,
+			username: signInParams.username,
+			password: signInParams.password,
 		});
 		let updateResponse = updateAuthStore(
 			this._currentSessionId,
@@ -47,16 +49,19 @@ export default class AuthClassTest {
 		);
 	}
 
-	public async prepareCredentials(client?: IAuthClient) {
+	public async prepareCredentials(
+		prepareCredentialsParams: PrepareCredentialsParams
+	) {
 		// check existing credentails
+		let tokens = this.storage.getItem(this._currentSessionId).tokens;
 
 		// potentially refresh access token
 
 		//then prep credentials
 		let result = await selectClient(
 			this.defaultZClient,
-			client
-		).prepareCredentials();
+			prepareCredentialsParams.client
+		).prepareCredentials({ tokens });
 		return result;
 	}
 

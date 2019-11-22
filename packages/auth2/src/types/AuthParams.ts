@@ -1,6 +1,9 @@
+import { Tokens } from './';
+
 type BaseParams = {
 	headers?: any;
 	options?: any;
+	client?: any;
 };
 
 type SignInParams = BaseParams & {
@@ -8,6 +11,8 @@ type SignInParams = BaseParams & {
 	password?: string;
 };
 
-type PrepareCredentialsParams = BaseParams;
+type PrepareCredentialsParams = BaseParams & {
+	tokens: Tokens;
+};
 
 export { BaseParams, PrepareCredentialsParams, SignInParams };

@@ -3,11 +3,13 @@ import {
 	AuthStore,
 	AuthStoreUpdate,
 	AuthUser,
+	CredentialsResult,
 	IAuthClient,
 	SignInParams,
 	SignInResult,
+	PrepareCredentialsParams,
 } from '../../types';
-import { CognitoIdentityPoolParams, PrepareCognitoCredentialParams } from './';
+import { CognitoIdentityPoolParams } from './';
 
 class CognitoIdentityPoolClientClass implements IAuthClient {
 	clientParameters;
@@ -35,9 +37,9 @@ class CognitoIdentityPoolClientClass implements IAuthClient {
 		this.endpoint = `https://cognito-identity.${cognitoIdentityPoolParams.aws_cognito_region}.amazonaws.com/`;
 	}
 
-	public prepareCredentials(
-		prepareCredentialsParams: PrepareCognitoCredentialParams
-	) {
+	public prepareCredentials = async (
+		prepareCredentialsParams: PrepareCredentialsParams
+	) => {
 		let options = this.formOptions(
 			'GetId',
 			prepareCredentialsParams.headers,
@@ -46,10 +48,11 @@ class CognitoIdentityPoolClientClass implements IAuthClient {
 
 		options.body = JSON.stringify({
 			IdentityPoolId: '',
-			Logins: prepareCredentialsParams.logins,
+			Logins: logins,
 		});
-		return {};
-	}
+		let result: CredentialsResult;
+		return result;
+	};
 
 	private formOptions = (
 		operation: string,
