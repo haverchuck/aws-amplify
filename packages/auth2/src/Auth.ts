@@ -1,10 +1,5 @@
-import { Parser } from '@aws-amplify/core';
 import { AuthConfig, IAuthClient, AuthStoreUpdate } from './types';
-import {
-	Auth0Client,
-	CognitoUserPoolClient,
-	CognitoIdentityPoolClient,
-} from './clients';
+import { CognitoUserPoolClient, CognitoIdentityPoolClient } from './clients';
 import { StorageHelper } from './DefaultStorage';
 import { createAuthStore, updateAuthStore } from './AuthStore';
 import { selectClient } from './AuthMediator';
@@ -53,6 +48,11 @@ export default class AuthClassTest {
 	}
 
 	public async prepareCredentials(client?: IAuthClient) {
+		// check existing credentails
+
+		// potentially refresh access token
+
+		//then prep credentials
 		let result = await selectClient(
 			this.defaultZClient,
 			client
@@ -63,4 +63,6 @@ export default class AuthClassTest {
 	public getModuleName() {
 		return 'Auth';
 	}
+
+	public addPluggable() {}
 }

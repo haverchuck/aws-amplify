@@ -1,4 +1,10 @@
-import { AuthStore, GeneralAuthError, SignInParams, SignInResult } from './';
+import {
+	AuthStore,
+	GeneralAuthError,
+	PrepareCredentialsParams,
+	SignInParams,
+	SignInResult,
+} from './';
 
 interface IAuthClient {
 	name: string;
@@ -9,7 +15,7 @@ interface IAuthClient {
 	urlListener?: UrlListener;
 	signIn?: (signInParams: SignInParams) => Promise<SignInResult>;
 	storagePrefix?: () => string;
-	prepareCredentials?: () => {};
+	prepareCredentials?: (prepareCredParams: PrepareCredentialsParams) => {};
 }
 
 type UrlListener = {

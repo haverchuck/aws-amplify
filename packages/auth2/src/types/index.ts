@@ -1,7 +1,7 @@
 import { IAuthClient, UrlListener } from './AuthClient';
 import { AuthConfig } from './AuthConfig';
 import { GeneralAuthError } from './AuthErrors';
-import { SignInParams } from './AuthParams';
+import { PrepareCredentialsParams, SignInParams } from './AuthParams';
 import { SignInResult } from './AuthResults';
 import {
 	AuthState,
@@ -20,6 +20,7 @@ export {
 	GeneralAuthError,
 	IAuthClient,
 	InitStoreParams,
+	PrepareCredentialsParams,
 	SignInParams,
 	SignInResult,
 	UrlListener,

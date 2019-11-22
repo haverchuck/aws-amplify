@@ -1,4 +1,11 @@
 import { CognitoIdentityPoolClient } from './CognitoIdentityPool';
-import { CognitoIdentityPoolParams } from './types';
+import {
+	CognitoIdentityPoolParams,
+	PrepareCognitoCredentialParams,
+} from './types';
 
-export { CognitoIdentityPoolClient, CognitoIdentityPoolParams };
+export {
+	CognitoIdentityPoolClient,
+	CognitoIdentityPoolParams,
+	PrepareCognitoCredentialParams,
+};

@@ -1,3 +1,6 @@
-import { CognitoIdentityPoolParams } from './CognitoIdentityPoolParams';
+import {
+	CognitoIdentityPoolParams,
+	PrepareCognitoCredentialParams,
+} from './CognitoIdentityPoolParams';
 
-export { CognitoIdentityPoolParams };
+export { CognitoIdentityPoolParams, PrepareCognitoCredentialParams };

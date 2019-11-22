@@ -8,4 +8,6 @@ type SignInParams = BaseParams & {
 	password?: string;
 };
 
-export { BaseParams, SignInParams };
+type PrepareCredentialsParams = BaseParams;
+
+export { BaseParams, PrepareCredentialsParams, SignInParams };
