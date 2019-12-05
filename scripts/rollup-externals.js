@@ -28,6 +28,11 @@ const auth_externals = [
 	'amazon-cognito-identity-js',
 ];
 
+const auth2_externals = [
+	'@aws-amplify/cache',
+	'@aws-amplify/core',
+]
+
 const cache_externals = ['@aws-amplify/core'];
 
 const storage_externals = ['@aws-amplify/core', 'aws-sdk/clients/s3'];
@@ -52,6 +57,7 @@ const amplify_externals = [
 	'@aws-amplify/analytics',
 	'@aws-amplify/api',
 	'@aws-amplify/auth',
+	'@aws-amplify/auth2',
 	'@aws-amplify/cache',
 	'@aws-amplify/core',
 	'@aws-amplify/interactions',
@@ -80,6 +86,7 @@ const rollup_externals = {
 	'@aws-amplify/analytics': analytics_externals,
 	'@aws-amplify/api': api_externals,
 	'@aws-amplify/auth': auth_externals,
+	'@aws-amplify/auth2': auth2_externals,
 	'aws-amplify': amplify_externals,
 	'aws-amplify-react': aws_amplify_react,
 	'@aws-amplify/cache': cache_externals,

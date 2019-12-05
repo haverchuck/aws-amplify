@@ -1,24 +1,12 @@
 module.exports = {
 	entry: {
-		'aws-amplify.min': './lib-esm/index.js',
+		'aws-amplify-auth2.min': './lib-esm/index.js',
 	},
-	externals: [
-		'@aws-amplify/analytics',
-		'@aws-amplify/api',
-		'@aws-amplify/auth',
-		'@aws-amplify/auth2',
-		'@aws-amplify/cache',
-		'@aws-amplify/core',
-		'@aws-amplify/interactions',
-		'@aws-amplify/pubsub',
-		'@aws-amplify/storage',
-		'@aws-amplify/ui',
-		'@aws-amplify/xr',
-	],
+	externals: ['react-native', '@aws-amplify/cache', '@aws-amplify/core'],
 	output: {
 		filename: '[name].js',
 		path: __dirname + '/dist',
-		library: 'aws_amplify',
+		library: 'aws_amplify_auth2',
 		libraryTarget: 'umd',
 		umdNamedDefine: true,
 		globalObject: 'this',

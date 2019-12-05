@@ -19,6 +19,7 @@ export {
 	AWSKinesisProvider,
 } from '@aws-amplify/analytics';
 export { Auth, AuthClass } from '@aws-amplify/auth';
+export { Auth2, AuthClassTest } from '@aws-amplify/auth2';
 export { Storage, StorageClass } from '@aws-amplify/storage';
 export { API, APIClass, graphqlOperation } from '@aws-amplify/api';
 export { PubSub, PubSubClass } from '@aws-amplify/pubsub';

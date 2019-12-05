@@ -56,20 +56,23 @@ export class CredentialsClass {
 		return this._config;
 	}
 
-	public get() {
+	public async get() {
 		logger.debug('getting credentials');
-		return this._pickupCredentials();
-	}
-
-	private _pickupCredentials() {
-		logger.debug('picking up credentials');
-		if (!this._gettingCredPromise || !this._gettingCredPromise.isPending()) {
-			logger.debug('getting new cred promise');
-			this._gettingCredPromise = makeQuerablePromise(this._keepAlive());
-		} else {
-			logger.debug('getting old cred promise');
-		}
-		return this._gettingCredPromise;
+		const { credentials, config, authNProvider } = Amplify.Auth2.getStore();
+		const creds = await Amplify.Auth2.prepareCredentials({
+			tokens: credentials.tokens,
+			config,
+			authNProvider,
+		});
+		console.log('creds', creds);
+		return {
+			secretAccessKey: creds.Credentials.SecretKey,
+			accessKeyId: creds.Credentials.AccessKeyId,
+			sessionToken: creds.Credentials.SessionToken,
+			identityId: '',
+			authenticated: true,
+		};
+		// return this._pickupCredentials();
 	}
 
 	private _keepAlive() {
