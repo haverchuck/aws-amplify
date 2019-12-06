@@ -17,11 +17,13 @@ import {
 
 import { Logger, isEmpty } from '@aws-amplify/core';
 import { Auth } from '@aws-amplify/auth';
+import { Auth2 } from '@aws-amplify/auth';
 
 
 const logger = new Logger('SignIn');
 
 console.log('Auth', Auth)
+console.log('Auth2', Auth2)
 
 @Component({
   tag: 'amplify-sign-in',
