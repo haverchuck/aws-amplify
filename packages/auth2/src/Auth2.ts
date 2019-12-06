@@ -9,10 +9,25 @@ import {
 	SignInParams,
 	RefreshAuthUserParams,
 } from './types';
+import {
+	Amplify,
+	Hub,
+	JS,
+} from '@aws-amplify/core';
 import { CognitoUserPoolClient, CognitoIdentityPoolClient } from './clients';
 import { StorageHelper } from './DefaultStorage';
 import { createAuthStore, getAuthStore, updateAuthStore } from './AuthStore';
 import { selectClient } from './AuthMediator';
+
+const AMPLIFY_SYMBOL = (typeof Symbol !== 'undefined' &&
+	typeof Symbol.for === 'function'
+	? Symbol.for('amplify_default')
+	: '@@amplify_default') as Symbol;
+
+
+const dispatchAuthEvent = (event: string, data: any, message: string) => {
+	Hub.dispatch('auth', { event, data, message }, 'Auth', AMPLIFY_SYMBOL);
+};
 
 export class AuthClassTest {
 	private _config: AuthConfig;
@@ -27,6 +42,8 @@ export class AuthClassTest {
 	constructor(options?) {
 		this.configure(options);
 		console.log('CONSTRUCTED');
+		Amplify.register(this);
+
 	}
 
 	configure(config) {
