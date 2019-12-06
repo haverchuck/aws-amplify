@@ -10,21 +10,26 @@
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions
  * and limitations under the License.
  */
+import { AuthClassTest } from './Auth2';
+import { Amplify, ConsoleLogger as Logger } from '@aws-amplify/core';
 
-import AuthClassTest from './Auth2';
 
-import Amplify, { ConsoleLogger as Logger } from '@aws-amplify/core';
-
-const logger = new Logger('Auth2');
+const logger = new Logger('Auth');
 
 let _instance: AuthClassTest = null;
 
 if (!_instance) {
-	logger.debug('Create Auth2 Instance');
-	_instance = new AuthClassTest();
+	logger.debug('Create Auth Instance');
+	_instance = new AuthClassTest(null);
 }
 
 const Auth2 = _instance;
-Amplify.register(Auth2);
 
-export { Auth2, AuthClassTest };
+/**
+ * @deprecated use named import
+ */
+export default Auth2;
+export {
+	Auth2,
+	AuthClassTest,
+};

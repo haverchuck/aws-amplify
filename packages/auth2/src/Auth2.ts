@@ -14,7 +14,7 @@ import { StorageHelper } from './DefaultStorage';
 import { createAuthStore, getAuthStore, updateAuthStore } from './AuthStore';
 import { selectClient } from './AuthMediator';
 
-export default class AuthClassTest {
+export class AuthClassTest {
 	private _config: AuthConfig;
 	private _currentSessionId: string;
 	public credentials: Pick<AuthStore, 'credentials'>;
@@ -107,5 +107,5 @@ export default class AuthClassTest {
 		return 'Auth2';
 	}
 
-	public addPluggable() {}
+	public addPluggable() { }
 }
