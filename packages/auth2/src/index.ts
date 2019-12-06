@@ -11,6 +11,8 @@
  * and limitations under the License.
  */
 import { AuthClassTest } from './Auth2';
+import { Auth0Client, CognitoIdentityPoolClient, CognitoUserPoolClient } from './clients';
+
 import { Amplify, ConsoleLogger as Logger } from '@aws-amplify/core';
 
 
@@ -32,4 +34,6 @@ export default Auth2;
 export {
 	Auth2,
 	AuthClassTest,
+	CognitoIdentityPoolClient,
+	CognitoUserPoolClient
 };
