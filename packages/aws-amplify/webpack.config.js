@@ -14,6 +14,7 @@ module.exports = {
 		'@aws-amplify/storage',
 		'@aws-amplify/ui',
 		'@aws-amplify/xr',
+		'@aws-amplify/ui-components'
 	],
 	output: {
 		filename: '[name].js',

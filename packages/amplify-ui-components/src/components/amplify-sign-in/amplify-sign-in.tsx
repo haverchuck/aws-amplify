@@ -1,9 +1,9 @@
 import { Component, Prop, State, h } from '@stencil/core';
 import { FormFieldTypes } from '../../components/amplify-auth-fields/amplify-auth-fields-interface';
-// import { AuthState, ChallengeName, FederatedConfig, AuthStateHandler } from '../../common/types/auth-types';
+import { AuthState, ChallengeName, FederatedConfig, AuthStateHandler } from '../../common/types/auth-types';
 
 
-import { AuthState, FederatedConfig, AuthStateHandler } from '../../common/types/auth-types';
+// import { AuthState, FederatedConfig, AuthStateHandler } from '../../common/types/auth-types';
 
 import {
   HEADER_TEXT,
@@ -16,7 +16,6 @@ import {
 } from '../../common/constants';
 
 import { Logger, isEmpty } from '@aws-amplify/core';
-import { Auth2 } from '@aws-amplify/auth2';
 import { Auth } from '@aws-amplify/auth';
 
 
@@ -99,19 +98,19 @@ export class AmplifySignIn {
     this.password = event.target.value;
   }
 
-  // checkContact(user) {
-  //   if (!Auth || typeof Auth.verifiedContact !== 'function') {
-  //     throw new Error(NO_AUTH_MODULE_FOUND);
-  //   }
-  //   Auth.verifiedContact(user).then(data => {
-  //     if (!isEmpty(data.verified)) {
-  //       this.handleAuthStateChange(AuthState.SignedIn, user);
-  //     } else {
-  //       user = Object.assign(user, data);
-  //       this.handleAuthStateChange(AuthState.VerifyContact, user);
-  //     }
-  //   });
-  // }
+  checkContact(user) {
+    if (!Auth || typeof Auth.verifiedContact !== 'function') {
+      throw new Error(NO_AUTH_MODULE_FOUND);
+    }
+    Auth.verifiedContact(user).then(data => {
+      if (!isEmpty(data.verified)) {
+        this.handleAuthStateChange(AuthState.SignedIn, user);
+      } else {
+        user = Object.assign(user, data);
+        this.handleAuthStateChange(AuthState.VerifyContact, user);
+      }
+    });
+  }
 
   async signIn(event) {
     // avoid submitting the form
@@ -119,43 +118,45 @@ export class AmplifySignIn {
       event.preventDefault();
     }
 
-    if (!Auth2 || typeof Auth2.signIn !== 'function') {
+    if (!Auth || typeof Auth.signIn !== 'function') {
       throw new Error(NO_AUTH_MODULE_FOUND);
     }
     this.loading = true;
     try {
-      const user = await Auth2.signIn({ username: this.username, password: this.password });
+      const user = await Auth.signIn(this.username, this.password);
+
+      // const user = await Auth2.signIn({ username: this.username, password: this.password });
       console.log('user', user)
       logger.debug(user);
-      //   if (user.challengeName === ChallengeName.SMSMFA || user.challengeName === ChallengeName.SoftwareTokenMFA) {
-      //     logger.debug('confirm user with ' + user.challengeName);
-      //     this.handleAuthStateChange(AuthState.ConfirmSignIn, user);
-      //   } else if (user.challengeName === ChallengeName.NewPasswordRequired) {
-      //     logger.debug('require new password', user.challengeParam);
-      //     this.handleAuthStateChange(AuthState.ResetPassword, user);
-      //   } else if (user.challengeName === ChallengeName.MFASetup) {
-      //     logger.debug('TOTP setup', user.challengeParam);
-      //     this.handleAuthStateChange(AuthState.TOTPSetup, user);
-      //   } else if (
-      //     user.challengeName === ChallengeName.CustomChallenge &&
-      //     user.challengeParam &&
-      //     user.challengeParam.trigger === 'true'
-      //   ) {
-      //     logger.debug('custom challenge', user.challengeParam);
-      //     this.handleAuthStateChange(AuthState.CustomConfirmSignIn, user);
-      //   } else {
-      //     this.checkContact(user);
-      //   }
-      // } catch (error) {
-      //   if (error.code === 'UserNotConfirmedException') {
-      //     logger.debug('the user is not confirmed');
-      //     this.handleAuthStateChange(AuthState.ConfirmSignUp, { username: this.username });
-      //   } else if (error.code === 'PasswordResetRequiredException') {
-      //     logger.debug('the user requires a new password');
-      //     this.handleAuthStateChange(AuthState.ForgotPassword, { username: this.username });
-      //   } else {
-      //     throw new Error(error);
-      //   }
+      if (user.challengeName === ChallengeName.SMSMFA || user.challengeName === ChallengeName.SoftwareTokenMFA) {
+        logger.debug('confirm user with ' + user.challengeName);
+        this.handleAuthStateChange(AuthState.ConfirmSignIn, user);
+      } else if (user.challengeName === ChallengeName.NewPasswordRequired) {
+        logger.debug('require new password', user.challengeParam);
+        this.handleAuthStateChange(AuthState.ResetPassword, user);
+      } else if (user.challengeName === ChallengeName.MFASetup) {
+        logger.debug('TOTP setup', user.challengeParam);
+        this.handleAuthStateChange(AuthState.TOTPSetup, user);
+      } else if (
+        user.challengeName === ChallengeName.CustomChallenge &&
+        user.challengeParam &&
+        user.challengeParam.trigger === 'true'
+      ) {
+        logger.debug('custom challenge', user.challengeParam);
+        this.handleAuthStateChange(AuthState.CustomConfirmSignIn, user);
+      } else {
+        this.checkContact(user);
+      }
+    } catch (error) {
+      if (error.code === 'UserNotConfirmedException') {
+        logger.debug('the user is not confirmed');
+        this.handleAuthStateChange(AuthState.ConfirmSignUp, { username: this.username });
+      } else if (error.code === 'PasswordResetRequiredException') {
+        logger.debug('the user requires a new password');
+        this.handleAuthStateChange(AuthState.ForgotPassword, { username: this.username });
+      } else {
+        throw new Error(error);
+      }
     } finally {
       this.loading = false;
     }

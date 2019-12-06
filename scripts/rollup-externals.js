@@ -67,6 +67,12 @@ const amplify_externals = [
 	'@aws-amplify/xr',
 ];
 
+const component_externals = [
+	'@aws-amplify/auth',
+	'@aws-amplify/auth2',
+	'buffer'
+];
+
 const aws_amplify_react = [
 	'@aws-amplify/auth',
 	'@aws-amplify/analytics',
@@ -95,6 +101,7 @@ const rollup_externals = {
 	'@aws-amplify/pubsub': pubsub_externals,
 	'@aws-amplify/storage': storage_externals,
 	'@aws-amplify/xr': xr_externals,
+	'@aws-amplify/ui-components': component_externals,
 };
 
 module.exports = rollup_externals;

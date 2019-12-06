@@ -26,6 +26,7 @@ export { PubSub, PubSubClass } from '@aws-amplify/pubsub';
 export { default as Cache } from '@aws-amplify/cache';
 export { Interactions, InteractionsClass } from '@aws-amplify/interactions';
 export * from '@aws-amplify/ui';
+export { Components } from '@aws-amplify/ui-components';
 export { XR, XRClass } from '@aws-amplify/xr';
 export {
 	Predictions,
