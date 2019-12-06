@@ -25,6 +25,7 @@ export class AuthClassTest {
 	public storage: any;
 
 	constructor(options?) {
+		this.configure(options);
 		console.log('CONSTRUCTED');
 	}
 
