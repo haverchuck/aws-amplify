@@ -1,6 +1,6 @@
 {
   "name": "aws-amplify-vue",
-  "version": "0.3.3",
+  "version": "0.2.15-a2.73+8b11a87e",
   "license": "Apache-2.0",
   "private": false,
   "author": "Amazon Web Services",
@@ -45,5 +45,6 @@
     "*.json",
     "*.js"
   ],
-  "main": "./dist/aws-amplify-vue.common.js"
+  "main": "./dist/aws-amplify-vue.common.js",
+  "gitHead": "8b11a87e9d2230d033feb64751a71b27f0e0ead7"
 }

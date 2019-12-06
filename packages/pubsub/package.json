@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/pubsub",
-  "version": "1.2.4",
+  "version": "1.0.33-a2.70+8b11a87e",
   "description": "Pubsub category of aws-amplify",
   "main": "./index.js",
   "module": "./lib-esm/index.js",
@@ -38,7 +38,7 @@
     "cpx": "^1.5.0"
   },
   "dependencies": {
-    "@aws-amplify/core": "^1.2.4",
+    "@aws-amplify/core": "1.0.32-a2.70+8b11a87e",
     "@types/zen-observable": "^0.5.3",
     "paho-mqtt": "^1.1.0",
     "uuid": "^3.2.1",
@@ -84,5 +84,6 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ]
-  }
+  },
+  "gitHead": "8b11a87e9d2230d033feb64751a71b27f0e0ead7"
 }

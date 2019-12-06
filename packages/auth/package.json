@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/auth",
-  "version": "1.5.0",
+  "version": "1.2.31-a2.70+8b11a87e",
   "description": "Auth category of aws-amplify",
   "main": "./index.js",
   "module": "./lib-esm/index.js",
@@ -35,9 +35,9 @@
   },
   "homepage": "https://aws-amplify.github.io/",
   "dependencies": {
-    "@aws-amplify/cache": "^1.1.4",
-    "@aws-amplify/core": "^1.2.4",
-    "amazon-cognito-identity-js": "^3.2.0",
+    "@aws-amplify/cache": "1.0.32-a2.70+8b11a87e",
+    "@aws-amplify/core": "1.0.32-a2.70+8b11a87e",
+    "amazon-cognito-identity-js": "3.0.16-a2.73+8b11a87e",
     "crypto-js": "^3.1.9-1"
   },
   "jest": {
@@ -81,5 +81,6 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ]
-  }
+  },
+  "gitHead": "8b11a87e9d2230d033feb64751a71b27f0e0ead7"
 }

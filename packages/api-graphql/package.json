@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/api-graphql",
-  "version": "1.0.0",
+  "version": "1.0.1-a2.5346+8b11a87e",
   "description": "Api-graphql category of aws-amplify",
   "main": "./index.js",
   "module": "./lib-esm/index.js",
@@ -32,12 +32,12 @@
   },
   "homepage": "https://aws-amplify.github.io/",
   "dependencies": {
+    "@aws-amplify/api-rest": "1.0.1-a2.5346+8b11a87e",
+    "@aws-amplify/auth": "1.2.31-a2.70+8b11a87e",
+    "@aws-amplify/cache": "1.0.32-a2.70+8b11a87e",
+    "@aws-amplify/core": "1.0.32-a2.70+8b11a87e",
+    "@aws-amplify/pubsub": "1.0.33-a2.70+8b11a87e",
     "@types/zen-observable": "^0.5.3",
-    "@aws-amplify/auth": "^1.5.0",
-    "@aws-amplify/cache": "^1.1.4",
-    "@aws-amplify/core": "^1.2.4",
-    "@aws-amplify/pubsub": "^1.2.4",
-    "@aws-amplify/api-rest": "^1.0.0",
     "graphql": "0.13.0",
     "uuid": "^3.2.1",
     "zen-observable": "^0.8.6"
@@ -82,5 +82,6 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ]
-  }
+  },
+  "gitHead": "8b11a87e9d2230d033feb64751a71b27f0e0ead7"
 }
