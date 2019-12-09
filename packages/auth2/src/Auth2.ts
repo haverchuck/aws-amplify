@@ -8,6 +8,7 @@ import {
 	Tokens,
 	SignInParams,
 	RefreshAuthUserParams,
+	CredentialsResult,
 } from './types';
 import {
 	Amplify,
@@ -37,31 +38,29 @@ const dispatchAuthEvent = (event: string, data: any, message: string) => {
 export class AuthClassTest {
 	private _config: AuthConfig;
 	private _currentSessionId: string;
-	public credentials: Pick<AuthStore, 'credentials'>;
+	public credentials: CredentialsResult;
 	public defaultNClient: IAuthClient;
 	public defaultZClient: IAuthClient;
 
 	public availableClients: IAuthClient[];
 	public storage: any;
 
-	constructor() {
-		console.log('CONSTRUCTED');
+	constructor(config) {
+		// this.configure(config);
 		Amplify.register(this);
 
 	}
 
 	configure(config?) {
-		console.log('CONFIGURED');
-
-		if (!config) return this._config;
-		logger.debug('configure Analytics', config);
+		// if (!config) return this._config;
+		logger.debug('configure Auth2', config);
 		this._config = Object.assign(
 			{},
 			config
 		);
 
 		// if 'clients' property is missing, we assume legacy configuration of single userpool/idpool
-		if (!this._config.clients || this._config.clients.length < 1) {
+		if (!this._config.clients || (this._config.clients && this._config.clients.length < 1)) {
 			this.defaultNClient = CognitoUserPoolClient(config);
 			this.defaultZClient = CognitoIdentityPoolClient(config);
 		}
@@ -141,3 +140,5 @@ export class AuthClassTest {
 
 	public addPluggable() { }
 }
+
+export default AuthClassTest;

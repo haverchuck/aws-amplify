@@ -37,7 +37,7 @@ const packageFolderMap = {
 	'aws-amplify-react': 'aws-amplify-react',
 	'aws-amplify-react-native': 'aws-amplify-react-native',
 	'aws-amplify-vue': 'aws-amplify-vue',
-	'ui-components': 'amplify-ui-components',
+	'@aws-amplify/ui-components': 'amplify-ui-components',
 	cache: '@aws-amplify/cache',
 	core: '@aws-amplify/core',
 	interactions: '@aws-amplify/interactions',

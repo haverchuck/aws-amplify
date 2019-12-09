@@ -22,7 +22,7 @@ let _instance: AuthClassTest = null;
 
 if (!_instance) {
 	logger.debug('Create Auth Instance');
-	_instance = new AuthClassTest();
+	_instance = new AuthClassTest(null);
 }
 
 const Auth2 = _instance;

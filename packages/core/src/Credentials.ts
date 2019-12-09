@@ -3,7 +3,7 @@ import { StorageHelper } from './StorageHelper';
 import { makeQuerablePromise } from './JS';
 import { FacebookOAuth, GoogleOAuth } from './OAuthHelper';
 import { ICredentials } from './types';
-import { Amplify } from './Amplify';
+import { Amplify } from '@aws-amplify/core';
 import {
 	fromCognitoIdentity,
 	FromCognitoIdentityParameters,
@@ -58,6 +58,8 @@ export class CredentialsClass {
 
 	public async get() {
 		logger.debug('getting credentials');
+
+		console.log('Amplify', Amplify.Auth2);
 		const { credentials, config, authNProvider } = Amplify.Auth2.getStore();
 		const creds = await Amplify.Auth2.prepareCredentials({
 			tokens: credentials.tokens,
@@ -66,9 +68,9 @@ export class CredentialsClass {
 		});
 		console.log('creds', creds);
 		return {
-			secretAccessKey: creds.Credentials.SecretKey,
-			accessKeyId: creds.Credentials.AccessKeyId,
-			sessionToken: creds.Credentials.SessionToken,
+			secretAccessKey: creds.secreateAccessKey,
+			accessKeyId: creds.accessKeyId,
+			sessionToken: creds.sessionToken,
 			identityId: '',
 			authenticated: true,
 		};
