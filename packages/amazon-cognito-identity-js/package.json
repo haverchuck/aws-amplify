@@ -1,7 +1,7 @@
 {
   "name": "amazon-cognito-identity-js",
   "description": "Amazon Cognito Identity Provider JavaScript SDK",
-  "version": "3.0.16-a2.73+8b11a87e",
+  "version": "3.0.16-a3.77+6d41e757",
   "author": {
     "name": "Amazon Web Services",
     "email": "aws@amazon.com",
@@ -89,5 +89,5 @@
     "rimraf": "^2.5.4",
     "webpack": "^3.5.5"
   },
-  "gitHead": "8b11a87e9d2230d033feb64751a71b27f0e0ead7"
+  "gitHead": "6d41e7571d2c4dc0d713bcbb8dd2c42c3cd8d33c"
 }

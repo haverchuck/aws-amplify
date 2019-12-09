@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/ui",
-  "version": "1.0.24-a2.73+8b11a87e",
+  "version": "1.0.24-a3.77+6d41e757",
   "main": "dist/aws-amplify-ui.js",
   "types": "lib/index.d.ts",
   "publishConfig": {
@@ -32,5 +32,5 @@
       "autoprefixer": {}
     }
   },
-  "gitHead": "8b11a87e9d2230d033feb64751a71b27f0e0ead7"
+  "gitHead": "6d41e7571d2c4dc0d713bcbb8dd2c42c3cd8d33c"
 }

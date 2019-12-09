@@ -1,6 +1,6 @@
 {
 	"name": "@aws-amplify/auth2",
-	"version": "0.0.2-a2.5346+8b11a87e",
+	"version": "0.0.2-a3.5350+6d41e757",
 	"description": "Auth category of aws-amplify",
 	"main": "./index.js",
 	"module": "./lib-esm/index.js",
@@ -34,8 +34,8 @@
 	},
 	"homepage": "https://aws-amplify.github.io/",
 	"dependencies": {
-		"@aws-amplify/cache": "1.0.32-a2.70+8b11a87e",
-		"@aws-amplify/core": "1.0.32-a2.70+8b11a87e",
+		"@aws-amplify/cache": "1.0.32-a3.74+6d41e757",
+		"@aws-amplify/core": "1.0.32-a3.74+6d41e757",
 		"@types/deep-diff": "^1.0.0",
 		"crypto-js": "^3.1.9-1",
 		"deep-diff": "^1.0.2"
@@ -82,5 +82,5 @@
 			"/node_modules/"
 		]
 	},
-	"gitHead": "8b11a87e9d2230d033feb64751a71b27f0e0ead7"
+	"gitHead": "6d41e7571d2c4dc0d713bcbb8dd2c42c3cd8d33c"
 }
