@@ -13,6 +13,8 @@ import {
 	Amplify,
 	Hub,
 	JS,
+	Parser,
+	Logger,
 } from '@aws-amplify/core';
 import { CognitoUserPoolClient, CognitoIdentityPoolClient } from './clients';
 import { StorageHelper } from './DefaultStorage';
@@ -23,6 +25,9 @@ const AMPLIFY_SYMBOL = (typeof Symbol !== 'undefined' &&
 	typeof Symbol.for === 'function'
 	? Symbol.for('amplify_default')
 	: '@@amplify_default') as Symbol;
+
+const logger = new Logger('Auth2Class');
+
 
 
 const dispatchAuthEvent = (event: string, data: any, message: string) => {
@@ -39,17 +44,24 @@ export class AuthClassTest {
 	public availableClients: IAuthClient[];
 	public storage: any;
 
-	constructor(options?) {
-		this.configure(options);
+	constructor() {
 		console.log('CONSTRUCTED');
 		Amplify.register(this);
 
 	}
 
-	configure(config) {
+	configure(config?) {
 		console.log('CONFIGURED');
+
+		if (!config) return this._config;
+		logger.debug('configure Analytics', config);
+		this._config = Object.assign(
+			{},
+			config
+		);
+
 		// if 'clients' property is missing, we assume legacy configuration of single userpool/idpool
-		if (!config.clients || config.clients.length < 1) {
+		if (!this._config.clients || this._config.clients.length < 1) {
 			this.defaultNClient = CognitoUserPoolClient(config);
 			this.defaultZClient = CognitoIdentityPoolClient(config);
 		}
@@ -58,6 +70,8 @@ export class AuthClassTest {
 			sessionId: this.defaultNClient.storagePrefix(),
 			config,
 		});
+
+		return this._config;
 	}
 
 	public async signIn(signInParams: SignInParams, client?: IAuthClient) {
