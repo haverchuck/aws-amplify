@@ -100,7 +100,12 @@ class CognitoIdentityPoolClientClass implements IAuthClient {
 		});
 
 		let credentialsRequest = await fetch(this.endpoint, requestOptions);
-		return credentialsRequest.json();
+		let creds = await credentialsRequest.json();
+		return {
+			accessKeyId: creds.Credentials.AccessKeyId,
+			sessionToken: creds.Credentials.SessionToken,
+			secreateAccessKey: creds.Credentials.SecretKey,
+		}
 	};
 
 	private formOptions = (
