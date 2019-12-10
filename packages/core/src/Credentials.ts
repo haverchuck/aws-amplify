@@ -3,7 +3,7 @@ import { StorageHelper } from './StorageHelper';
 import { makeQuerablePromise } from './JS';
 import { FacebookOAuth, GoogleOAuth } from './OAuthHelper';
 import { ICredentials } from './types';
-import { Amplify } from '@aws-amplify/core';
+import { Amplify } from './Amplify';
 import {
 	fromCognitoIdentity,
 	FromCognitoIdentityParameters,
