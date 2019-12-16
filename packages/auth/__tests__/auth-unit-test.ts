@@ -504,7 +504,9 @@ describe('auth unit test', () => {
 				code,
 				jasmine.any(Boolean),
 				jasmine.any(Function),
-				{ foo: 'bar' }
+				{
+					foo: 'bar',
+				}
 			);
 			spyon.mockClear();
 		});
@@ -522,7 +524,9 @@ describe('auth unit test', () => {
 				code,
 				jasmine.any(Boolean),
 				jasmine.any(Function),
-				{ custom: 'value' }
+				{
+					custom: 'value',
+				}
 			);
 			spyon.mockClear();
 		});
@@ -607,10 +611,9 @@ describe('auth unit test', () => {
 
 			await auth.resendSignUp('username');
 
-			expect(await CognitoUser.prototype.resendConfirmationCode).toBeCalledWith(
-				jasmine.any(Function),
-				{ foo: 'bar' }
-			);
+			expect(
+				await CognitoUser.prototype.resendConfirmationCode
+			).toBeCalledWith(jasmine.any(Function), { foo: 'bar' });
 			spyon.mockClear();
 		});
 
@@ -620,10 +623,9 @@ describe('auth unit test', () => {
 
 			await auth.resendSignUp('username', { custom: 'value' });
 
-			expect(await CognitoUser.prototype.resendConfirmationCode).toBeCalledWith(
-				jasmine.any(Function),
-				{ custom: 'value' }
-			);
+			expect(
+				await CognitoUser.prototype.resendConfirmationCode
+			).toBeCalledWith(jasmine.any(Function), { custom: 'value' });
 			spyon.mockClear();
 		});
 
@@ -753,13 +755,13 @@ describe('auth unit test', () => {
 			const spyon2 = jest
 				.spyOn(auth, 'currentUserPoolUser')
 				.mockImplementationOnce(() => {
-					return Promise.reject('User is disabled');
+					return Promise.reject('User is disabled.');
 				});
 			expect.assertions(2);
 			try {
 				await auth.signIn('username', 'password');
 			} catch (e) {
-				expect(e).toBe('User is disabled');
+				expect(e).toBe('User is disabled.');
 				expect(spyon2).toBeCalled();
 			}
 
@@ -2004,7 +2006,9 @@ describe('auth unit test', () => {
 				oldPassword,
 				newPassword,
 				jasmine.any(Function),
-				{ foo: 'bar' }
+				{
+					foo: 'bar',
+				}
 			);
 			spyon.mockClear();
 		});
@@ -2027,7 +2031,9 @@ describe('auth unit test', () => {
 				oldPassword,
 				newPassword,
 				jasmine.any(Function),
-				{ custom: 'value' }
+				{
+					custom: 'value',
+				}
 			);
 			spyon.mockClear();
 		});
@@ -3092,7 +3098,7 @@ describe('auth unit test', () => {
 				.mockImplementationOnce(callback => {
 					callback(
 						{
-							message: 'User is disabled',
+							message: 'User is disabled.',
 						},
 						null
 					);
@@ -3115,7 +3121,7 @@ describe('auth unit test', () => {
 				await auth.currentUserPoolUser();
 			} catch (e) {
 				expect(e).toEqual({
-					message: 'User is disabled',
+					message: 'User is disabled.',
 				});
 			}
 
